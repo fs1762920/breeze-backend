@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fan.breeze.dao.BlogLabelMapper">
+  <resultMap id="BaseResultMap" type="cn.fan.breeze.entity.BlogLabelEntity">
+    <id column="bl_id" jdbcType="INTEGER" property="blId" />
+    <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="label_id" jdbcType="INTEGER" property="labelId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bl_id, blog_id, label_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_blog_label
+    where bl_id = #{blId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from b_blog_label
+    where bl_id = #{blId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="bl_id" keyProperty="blId" parameterType="cn.fan.breeze.entity.BlogLabelEntity" useGeneratedKeys="true">
+    insert into b_blog_label (blog_id, label_id)
+    values (#{blogId,jdbcType=INTEGER}, #{labelId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertBatch" keyColumn="bl_id" keyProperty="blId" parameterType="cn.fan.breeze.entity.BlogLabelEntity" useGeneratedKeys="true">
+    insert into b_blog_label (blog_id, label_id) values
+    <foreach collection="blogLabelEntityList" item="blogLabelEntity" separator=",">
+      (#{blogLabelEntity.blogId,jdbcType=INTEGER}, #{blogLabelEntity.labelId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" keyColumn="bl_id" keyProperty="blId" parameterType="cn.fan.breeze.entity.BlogLabelEntity" useGeneratedKeys="true">
+    insert into b_blog_label
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        blog_id,
+      </if>
+      <if test="labelId != null">
+        label_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blogId != null">
+        #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="labelId != null">
+        #{labelId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.fan.breeze.entity.BlogLabelEntity">
+    update b_blog_label
+    <set>
+      <if test="blogId != null">
+        blog_id = #{blogId,jdbcType=INTEGER},
+      </if>
+      <if test="labelId != null">
+        label_id = #{labelId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where bl_id = #{blId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.fan.breeze.entity.BlogLabelEntity">
+    update b_blog_label
+    set blog_id = #{blogId,jdbcType=INTEGER},
+      label_id = #{labelId,jdbcType=INTEGER}
+    where bl_id = #{blId,jdbcType=INTEGER}
+  </update>
+</mapper>

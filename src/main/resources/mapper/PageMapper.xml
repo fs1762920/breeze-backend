@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fan.breeze.dao.PageMapper">
+  <resultMap id="BaseResultMap" type="cn.fan.breeze.entity.PageEntity">
+    <id column="page_id" jdbcType="INTEGER" property="pageId" />
+    <result column="page_code" jdbcType="VARCHAR" property="pageCode" />
+    <result column="markdown_content" jdbcType="VARCHAR" property="markdownContent" />
+    <result column="html_content" jdbcType="VARCHAR" property="htmlContent" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    page_id, page_code, markdown_content, html_content, ctime, mtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_page
+    where page_id = #{pageId,jdbcType=INTEGER}
+  </select>
+  <select id="findOne" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from b_page
+    <where>
+      and page_code = #{pageCode}
+    </where>
+    limit 1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from b_page
+    where page_id = #{pageId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="page_id" keyProperty="pageId" parameterType="cn.fan.breeze.entity.PageEntity" useGeneratedKeys="true">
+    insert into b_page (page_code, markdown_content, html_content, 
+      ctime, mtime)
+    values (#{pageCode,jdbcType=VARCHAR}, #{markdownContent,jdbcType=VARCHAR}, #{htmlContent,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="page_id" keyProperty="pageId" parameterType="cn.fan.breeze.entity.PageEntity" useGeneratedKeys="true">
+    insert into b_page
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pageCode != null">
+        page_code,
+      </if>
+      <if test="markdownContent != null">
+        markdown_content,
+      </if>
+      <if test="htmlContent != null">
+        html_content,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="mtime != null">
+        mtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pageCode != null">
+        #{pageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="markdownContent != null">
+        #{markdownContent,jdbcType=VARCHAR},
+      </if>
+      <if test="htmlContent != null">
+        #{htmlContent,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.fan.breeze.entity.PageEntity">
+    update b_page
+    <set>
+      <if test="pageCode != null">
+        page_code = #{pageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="markdownContent != null">
+        markdown_content = #{markdownContent,jdbcType=VARCHAR},
+      </if>
+      <if test="htmlContent != null">
+        html_content = #{htmlContent,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where page_id = #{pageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.fan.breeze.entity.PageEntity">
+    update b_page
+    set page_code = #{pageCode,jdbcType=VARCHAR},
+      markdown_content = #{markdownContent,jdbcType=VARCHAR},
+      html_content = #{htmlContent,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP}
+    where page_id = #{pageId,jdbcType=INTEGER}
+  </update>
+</mapper>

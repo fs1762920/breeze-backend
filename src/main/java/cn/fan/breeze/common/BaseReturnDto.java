@@ -6,12 +6,14 @@ import java.io.Serializable;
 
 public class BaseReturnDto implements Serializable {
 
+    public static final int RESP_SUCCESS_CODE = 100;
+
     private int code;
     private String msg;
     private Object data;
 
     public BaseReturnDto(){
-        this.code=100;
+        this.code=RESP_SUCCESS_CODE;
     }
 
     public BaseReturnDto(int code,String msg){
@@ -23,6 +25,12 @@ public class BaseReturnDto implements Serializable {
         this.code=code;
         this.msg=msg;
         this.data=data;
+    }
+
+    public static BaseReturnDto success(int code, String message) {
+        BaseReturnDto returnDto = new BaseReturnDto();
+        returnDto.setMsg("success");
+        return returnDto;
     }
 
     public static BaseReturnDto success(Object data) {

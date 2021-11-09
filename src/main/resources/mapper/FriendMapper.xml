@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fan.breeze.dao.FriendMapper">
+  <resultMap id="BaseResultMap" type="cn.fan.breeze.entity.FriendEntity">
+    <id column="friend_id" jdbcType="INTEGER" property="friendId" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="avatar_path" jdbcType="VARCHAR" property="avatarPath" />
+    <result column="personal_sign" jdbcType="VARCHAR" property="personalSign" />
+    <result column="home_page" jdbcType="VARCHAR" property="homePage" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    friend_id, nickname, avatar_path, personal_sign, home_page, ctime, mtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_friend
+    where friend_id = #{friendId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from b_friend
+    where friend_id = #{friendId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="friend_id" keyProperty="friendId" parameterType="cn.fan.breeze.entity.FriendEntity" useGeneratedKeys="true">
+    insert into b_friend (nickname, avatar_path, personal_sign, 
+      home_page, ctime, mtime
+      )
+    values (#{nickname,jdbcType=VARCHAR}, #{avatarPath,jdbcType=VARCHAR}, #{personalSign,jdbcType=VARCHAR}, 
+      #{homePage,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="friend_id" keyProperty="friendId" parameterType="cn.fan.breeze.entity.FriendEntity" useGeneratedKeys="true">
+    insert into b_friend
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="avatarPath != null">
+        avatar_path,
+      </if>
+      <if test="personalSign != null">
+        personal_sign,
+      </if>
+      <if test="homePage != null">
+        home_page,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="mtime != null">
+        mtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarPath != null">
+        #{avatarPath,jdbcType=VARCHAR},
+      </if>
+      <if test="personalSign != null">
+        #{personalSign,jdbcType=VARCHAR},
+      </if>
+      <if test="homePage != null">
+        #{homePage,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.fan.breeze.entity.FriendEntity">
+    update b_friend
+    <set>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarPath != null">
+        avatar_path = #{avatarPath,jdbcType=VARCHAR},
+      </if>
+      <if test="personalSign != null">
+        personal_sign = #{personalSign,jdbcType=VARCHAR},
+      </if>
+      <if test="homePage != null">
+        home_page = #{homePage,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where friend_id = #{friendId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.fan.breeze.entity.FriendEntity">
+    update b_friend
+    set nickname = #{nickname,jdbcType=VARCHAR},
+      avatar_path = #{avatarPath,jdbcType=VARCHAR},
+      personal_sign = #{personalSign,jdbcType=VARCHAR},
+      home_page = #{homePage,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP}
+    where friend_id = #{friendId,jdbcType=INTEGER}
+  </update>
+</mapper>

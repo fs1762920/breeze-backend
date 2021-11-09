@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fan.breeze.dao.PhotoMapper">
+  <resultMap id="BaseResultMap" type="cn.fan.breeze.entity.PhotoEntity">
+    <id column="photo_id" jdbcType="INTEGER" property="photoId" />
+    <result column="original_name" jdbcType="VARCHAR" property="originalName" />
+    <result column="display_name" jdbcType="VARCHAR" property="displayName" />
+    <result column="photo_path" jdbcType="VARCHAR" property="photoPath" />
+    <result column="width" jdbcType="INTEGER" property="width" />
+    <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="height" jdbcType="INTEGER" property="height" />
+    <result column="size" jdbcType="VARCHAR" property="size" />
+    <result column="mime_type" jdbcType="VARCHAR" property="mimeType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    photo_id, original_name, display_name, photo_path, width, mtime, ctime, height, `size`, 
+    mime_type
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_photo
+    where photo_id = #{photoId,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySelective" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from b_photo
+    <where>
+      <if test="originalName != null">
+        and original_name like concat('%', #{originalName}, '%')
+      </if>
+      <if test="displayName != null">
+        and display_name like concat('%', #{displayName}, '%')
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from b_photo
+    where photo_id = #{photoId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteBatch">
+    delete from b_photo
+    where photo_id in
+    <foreach collection="photoIds" item="photoId" separator="," open="(" close=")">
+      #{photoId}
+    </foreach>
+  </delete>
+  <insert id="insert" keyColumn="photo_id" keyProperty="photoId" parameterType="cn.fan.breeze.entity.PhotoEntity" useGeneratedKeys="true">
+    insert into b_photo (original_name, display_name, photo_path, 
+      width, mtime, ctime, 
+      height, `size`, mime_type
+      )
+    values (#{originalName,jdbcType=VARCHAR}, #{displayName,jdbcType=VARCHAR}, #{photoPath,jdbcType=VARCHAR}, 
+      #{width,jdbcType=INTEGER}, #{mtime,jdbcType=TIMESTAMP}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{height,jdbcType=INTEGER}, #{size,jdbcType=VARCHAR}, #{mimeType,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertBatch" keyColumn="photo_id" keyProperty="photoId" parameterType="cn.fan.breeze.entity.PhotoEntity" useGeneratedKeys="true">
+    insert into b_photo (original_name, display_name, photo_path,
+      width, mtime, ctime,
+      height, `size`, mime_type
+      ) values
+    <foreach collection="photoEntityList" item="photoEntity" separator=",">
+      (#{photoEntity.originalName,jdbcType=VARCHAR}, #{photoEntity.displayName,jdbcType=VARCHAR}, #{photoEntity.photoPath,jdbcType=VARCHAR},
+      #{photoEntity.width,jdbcType=INTEGER}, #{photoEntity.mtime,jdbcType=TIMESTAMP}, #{photoEntity.ctime,jdbcType=TIMESTAMP},
+      #{photoEntity.height,jdbcType=INTEGER}, #{photoEntity.size,jdbcType=VARCHAR}, #{photoEntity.mimeType,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
+  <insert id="insertSelective" keyColumn="photo_id" keyProperty="photoId" parameterType="cn.fan.breeze.entity.PhotoEntity" useGeneratedKeys="true">
+    insert into b_photo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="originalName != null">
+        original_name,
+      </if>
+      <if test="displayName != null">
+        display_name,
+      </if>
+      <if test="photoPath != null">
+        photo_path,
+      </if>
+      <if test="width != null">
+        width,
+      </if>
+      <if test="mtime != null">
+        mtime,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="size != null">
+        `size`,
+      </if>
+      <if test="mimeType != null">
+        mime_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="originalName != null">
+        #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="displayName != null">
+        #{displayName,jdbcType=VARCHAR},
+      </if>
+      <if test="photoPath != null">
+        #{photoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        #{width,jdbcType=INTEGER},
+      </if>
+      <if test="mtime != null">
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="mimeType != null">
+        #{mimeType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.fan.breeze.entity.PhotoEntity">
+    update b_photo
+    <set>
+      <if test="originalName != null">
+        original_name = #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="displayName != null">
+        display_name = #{displayName,jdbcType=VARCHAR},
+      </if>
+      <if test="photoPath != null">
+        photo_path = #{photoPath,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null">
+        width = #{width,jdbcType=INTEGER},
+      </if>
+      <if test="mtime != null">
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="size != null">
+        `size` = #{size,jdbcType=VARCHAR},
+      </if>
+      <if test="mimeType != null">
+        mime_type = #{mimeType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where photo_id = #{photoId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.fan.breeze.entity.PhotoEntity">
+    update b_photo
+    set original_name = #{originalName,jdbcType=VARCHAR},
+      display_name = #{displayName,jdbcType=VARCHAR},
+      photo_path = #{photoPath,jdbcType=VARCHAR},
+      width = #{width,jdbcType=INTEGER},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      height = #{height,jdbcType=INTEGER},
+      `size` = #{size,jdbcType=VARCHAR},
+      mime_type = #{mimeType,jdbcType=VARCHAR}
+    where photo_id = #{photoId,jdbcType=INTEGER}
+  </update>
+</mapper>

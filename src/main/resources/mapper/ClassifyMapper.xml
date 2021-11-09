@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fan.breeze.dao.ClassifyMapper">
+  <resultMap id="BaseResultMap" type="cn.fan.breeze.entity.ClassifyEntity">
+    <id column="classify_id" jdbcType="INTEGER" property="classifyId" />
+    <result column="classify_name" jdbcType="VARCHAR" property="classifyName" />
+    <result column="classify_describe" jdbcType="VARCHAR" property="classifyDescribe" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
+    <result column="enabled" jdbcType="INTEGER" property="enabled" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    classify_id, classify_name, classify_describe, ctime, mtime, enabled
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_classify
+    where classify_id = #{classifyId,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySelective" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from b_classify
+    <where>
+      <if test="classifyName != null">
+        classify_name like concat('%', #{classifyName}, '%')
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled}
+      </if>
+    </where>
+    order by mtime desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from b_classify
+    where classify_id = #{classifyId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="classify_id" keyProperty="classifyId" parameterType="cn.fan.breeze.entity.ClassifyEntity" useGeneratedKeys="true">
+    insert into b_classify (classify_name, classify_describe, ctime, 
+      mtime, enabled)
+    values (#{classifyName,jdbcType=VARCHAR}, #{classifyDescribe,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{mtime,jdbcType=TIMESTAMP}, #{enabled,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="classify_id" keyProperty="classifyId" parameterType="cn.fan.breeze.entity.ClassifyEntity" useGeneratedKeys="true">
+    insert into b_classify
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="classifyName != null">
+        classify_name,
+      </if>
+      <if test="classifyDescribe != null">
+        classify_describe,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="mtime != null">
+        mtime,
+      </if>
+      <if test="enabled != null">
+        enabled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="classifyName != null">
+        #{classifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyDescribe != null">
+        #{classifyDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enabled != null">
+        #{enabled,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.fan.breeze.entity.ClassifyEntity">
+    update b_classify
+    <set>
+      <if test="classifyName != null">
+        classify_name = #{classifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyDescribe != null">
+        classify_describe = #{classifyDescribe,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enabled != null">
+        enabled = #{enabled,jdbcType=INTEGER},
+      </if>
+    </set>
+    where classify_id = #{classifyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.fan.breeze.entity.ClassifyEntity">
+    update b_classify
+    set classify_name = #{classifyName,jdbcType=VARCHAR},
+      classify_describe = #{classifyDescribe,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      enabled = #{enabled,jdbcType=INTEGER}
+    where classify_id = #{classifyId,jdbcType=INTEGER}
+  </update>
+</mapper>

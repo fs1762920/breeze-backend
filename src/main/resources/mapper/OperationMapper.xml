@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fan.breeze.dao.OperationMapper">
+  <resultMap id="BaseResultMap" type="cn.fan.breeze.entity.OperationEntity">
+    <id column="operation_id" jdbcType="INTEGER" property="operationId" />
+    <result column="action" jdbcType="VARCHAR" property="action" />
+    <result column="relevance" jdbcType="VARCHAR" property="relevance" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    operation_id, `action`, relevance, ctime, mtime
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_operation
+    where operation_id = #{operationId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from b_operation
+    where operation_id = #{operationId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="operation_id" keyProperty="operationId" parameterType="cn.fan.breeze.entity.OperationEntity" useGeneratedKeys="true">
+    insert into b_operation (`action`, relevance, ctime, 
+      mtime)
+    values (#{action,jdbcType=VARCHAR}, #{relevance,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, 
+      #{mtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="operation_id" keyProperty="operationId" parameterType="cn.fan.breeze.entity.OperationEntity" useGeneratedKeys="true">
+    insert into b_operation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="action != null">
+        `action`,
+      </if>
+      <if test="relevance != null">
+        relevance,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="mtime != null">
+        mtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="action != null">
+        #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="relevance != null">
+        #{relevance,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.fan.breeze.entity.OperationEntity">
+    update b_operation
+    <set>
+      <if test="action != null">
+        `action` = #{action,jdbcType=VARCHAR},
+      </if>
+      <if test="relevance != null">
+        relevance = #{relevance,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where operation_id = #{operationId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.fan.breeze.entity.OperationEntity">
+    update b_operation
+    set `action` = #{action,jdbcType=VARCHAR},
+      relevance = #{relevance,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP}
+    where operation_id = #{operationId,jdbcType=INTEGER}
+  </update>
+</mapper>

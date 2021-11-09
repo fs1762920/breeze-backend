@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fan.breeze.dao.BlogMapper">
+  <resultMap id="BaseResultMap" type="cn.fan.breeze.entity.BlogEntity">
+    <id column="blog_id" jdbcType="INTEGER" property="blogId" />
+    <result column="classify_id" jdbcType="INTEGER" property="classifyId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="markdown_content" jdbcType="VARCHAR" property="markdownContent" />
+    <result column="html_content" jdbcType="VARCHAR" property="htmlContent" />
+    <result column="reading_count" jdbcType="INTEGER" property="readingCount" />
+    <result column="comment_count" jdbcType="INTEGER" property="commentCount" />
+    <result column="cover" jdbcType="VARCHAR" property="cover" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
+    <result column="topped" jdbcType="INTEGER" property="topped" />
+    <result column="commented" jdbcType="INTEGER" property="commented" />
+    <association property="classifyEntity" javaType="cn.fan.breeze.entity.ClassifyEntity">
+      <id property="classifyId" column="classify_id"/>
+      <result property="classifyName" column="classify_name"/>
+      <result property="classifyDescribe" column="classify_describe"/>
+    </association>
+    <collection property="labelEntityList" ofType="cn.fan.breeze.entity.LabelEntity">
+      <id property="labelId" column="label_id"/>
+      <result property="labelName" column="label_name"/>
+      <result property="labelDescribe" column="label_describe"/>
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    blog_id, classify_id, title, markdown_content, html_content, reading_count, cover, 
+    summary, ctime, mtime, topped, commented
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+    select
+            bg.blog_id,
+            bg.title,
+            bg.markdown_content,
+            bg.html_content,
+            bg.reading_count,
+            (select count(1) from b_comment where blog_id=bg.blog_id and is_valid=1) as comment_count,
+            bg.cover,
+            bg.summary,
+            bg.classify_id,
+            bg.ctime,
+            bg.mtime,
+            bg.topped,
+            bg.commented,
+            bc.classify_id,
+            bc.classify_name,
+            bc.classify_describe,
+            bl.label_id,
+            bl.label_name,
+            bl.label_describe
+        from b_blog bg
+            left join b_classify bc on bg.classify_id=bc.classify_id
+            left join b_blog_label bbl on bbl.b_id=bg.blog_id
+            left join b_label bl on bl.label_id=bbl.l_id
+        where bg.blog_id=#{blogId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from b_blog
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="blog_id" keyProperty="blogId" parameterType="cn.fan.breeze.entity.BlogEntity" useGeneratedKeys="true">
+    insert into b_blog (classify_id, title, markdown_content, 
+      html_content, reading_count, cover, 
+      summary, ctime, mtime, 
+      topped, commented)
+    values (#{classifyId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{markdownContent,jdbcType=VARCHAR}, 
+      #{htmlContent,jdbcType=VARCHAR}, #{readingCount,jdbcType=INTEGER}, #{cover,jdbcType=VARCHAR}, 
+      #{summary,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, 
+      #{topped,jdbcType=INTEGER}, #{commented,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="blog_id" keyProperty="blogId" parameterType="cn.fan.breeze.entity.BlogEntity" useGeneratedKeys="true">
+    insert into b_blog
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="classifyId != null">
+        classify_id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="markdownContent != null">
+        markdown_content,
+      </if>
+      <if test="htmlContent != null">
+        html_content,
+      </if>
+      <if test="readingCount != null">
+        reading_count,
+      </if>
+      <if test="cover != null">
+        cover,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="mtime != null">
+        mtime,
+      </if>
+      <if test="topped != null">
+        topped,
+      </if>
+      <if test="commented != null">
+        commented,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="classifyId != null">
+        #{classifyId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="markdownContent != null">
+        #{markdownContent,jdbcType=VARCHAR},
+      </if>
+      <if test="htmlContent != null">
+        #{htmlContent,jdbcType=VARCHAR},
+      </if>
+      <if test="readingCount != null">
+        #{readingCount,jdbcType=INTEGER},
+      </if>
+      <if test="cover != null">
+        #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topped != null">
+        #{topped,jdbcType=INTEGER},
+      </if>
+      <if test="commented != null">
+        #{commented,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.fan.breeze.entity.BlogEntity">
+    update b_blog
+    <set>
+      <if test="classifyId != null">
+        classify_id = #{classifyId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="markdownContent != null">
+        markdown_content = #{markdownContent,jdbcType=VARCHAR},
+      </if>
+      <if test="htmlContent != null">
+        html_content = #{htmlContent,jdbcType=VARCHAR},
+      </if>
+      <if test="readingCount != null">
+        reading_count = #{readingCount,jdbcType=INTEGER},
+      </if>
+      <if test="cover != null">
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="topped != null">
+        topped = #{topped,jdbcType=INTEGER},
+      </if>
+      <if test="commented != null">
+        commented = #{commented,jdbcType=INTEGER},
+      </if>
+    </set>
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.fan.breeze.entity.BlogEntity">
+    update b_blog
+    set classify_id = #{classifyId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      markdown_content = #{markdownContent,jdbcType=VARCHAR},
+      html_content = #{htmlContent,jdbcType=VARCHAR},
+      reading_count = #{readingCount,jdbcType=INTEGER},
+      cover = #{cover,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      topped = #{topped,jdbcType=INTEGER},
+      commented = #{commented,jdbcType=INTEGER}
+    where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+</mapper>

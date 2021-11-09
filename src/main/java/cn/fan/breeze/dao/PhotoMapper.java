@@ -1,10 +1,12 @@
 package cn.fan.breeze.dao;
 
 import cn.fan.breeze.entity.PhotoEntity;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface PhotoMapper {
     int deleteByPrimaryKey(Integer photoId);
 

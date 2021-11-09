@@ -6,7 +6,7 @@
     <result column="nickname" jdbcType="VARCHAR" property="nickname" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="avatar" jdbcType="INTEGER" property="avatar" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="personal_sign" jdbcType="VARCHAR" property="personalSign" />
     <result column="github" jdbcType="VARCHAR" property="github" />
     <result column="mail" jdbcType="VARCHAR" property="mail" />
@@ -50,7 +50,7 @@
       ctime, mtime, last_login_time
       )
     values (#{nickname,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{avatar,jdbcType=INTEGER}, #{personalSign,jdbcType=VARCHAR}, #{github,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR}, #{personalSign,jdbcType=VARCHAR}, #{github,jdbcType=VARCHAR},
       #{mail,jdbcType=VARCHAR}, #{homePath,jdbcType=VARCHAR}, #{hometown,jdbcType=VARCHAR}, 
       #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, #{lastLoginTime,jdbcType=TIMESTAMP}
       )
@@ -106,7 +106,7 @@
         #{password,jdbcType=VARCHAR},
       </if>
       <if test="avatar != null">
-        #{avatar,jdbcType=INTEGER},
+        #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="personalSign != null">
         #{personalSign,jdbcType=VARCHAR},
@@ -147,7 +147,7 @@
         `password` = #{password,jdbcType=VARCHAR},
       </if>
       <if test="avatar != null">
-        avatar = #{avatar,jdbcType=INTEGER},
+        avatar = #{avatar,jdbcType=VARCHAR},
       </if>
       <if test="personalSign != null">
         personal_sign = #{personalSign,jdbcType=VARCHAR},
@@ -181,7 +181,7 @@
     set nickname = #{nickname,jdbcType=VARCHAR},
       username = #{username,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},
-      avatar = #{avatar,jdbcType=INTEGER},
+      avatar = #{avatar,jdbcType=VARCHAR},
       personal_sign = #{personalSign,jdbcType=VARCHAR},
       github = #{github,jdbcType=VARCHAR},
       mail = #{mail,jdbcType=VARCHAR},

@@ -4,7 +4,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://123.60.7.55:3306/breeze_test?characterEncoding=utf-8&autoReconnect=true
+      url: jdbc:mysql://123.60.7.55:3306/breeze?characterEncoding=utf-8&autoReconnect=true
       password: 17629207915gcfs.
       username: root
       driver-class-name: com.mysql.cj.jdbc.Driver

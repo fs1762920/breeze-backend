@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/classify")
 @Slf4j
+@CrossOrigin
 public class ClassifyController {
 
     @Autowired

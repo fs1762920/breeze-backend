@@ -14,6 +14,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/photo")
 @Slf4j
+@CrossOrigin
 public class PhotoController {
 
     @Autowired

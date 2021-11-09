@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService {
         boolean result = false;
         List<UserEntity> userEntityList = userMapper.selectBySelective(new UserEntity());
         if (userEntityList.isEmpty()) {
+
             userMapper.insert(userEntity);
             result = true;
         }

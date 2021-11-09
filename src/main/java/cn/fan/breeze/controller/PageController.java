@@ -3,14 +3,14 @@ package cn.fan.breeze.controller;
 import cn.fan.breeze.common.BaseReturnDto;
 import cn.fan.breeze.entity.PageEntity;
 import cn.fan.breeze.service.PageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/page")
+@Slf4j
+@CrossOrigin
 public class PageController {
 
     @Autowired

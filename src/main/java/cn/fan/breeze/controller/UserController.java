@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @Slf4j
+@CrossOrigin
 public class UserController {
 
     @Value("${sa-token.public-key}")
@@ -73,6 +74,8 @@ public class UserController {
 
     @PostMapping("/update")
     public BaseReturnDto update(@RequestBody UserEntity userEntity) {
+        int userId = StpUtil.getLoginIdAsInt();
+        userEntity.setUserId(userId);
         if (!StringUtils.isEmpty(userEntity.getPassword())) {
             String encodePassword = SaSecureUtil.rsaEncryptByPublic(publicKey, userEntity.getPassword());
             userEntity.setPassword(encodePassword);
@@ -97,6 +100,13 @@ public class UserController {
             updateUser.setPassword(newPassword);
             userService.update(updateUser);
         }
-        return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "密码修改成功");
+        return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "密码修改成功, 请重新登录!");
+    }
+
+    @GetMapping("/userInfo")
+    public BaseReturnDto userInfo() {
+        int userId = StpUtil.getLoginIdAsInt();
+        UserEntity userEntity = userService.getById(userId);
+        return BaseReturnDto.success(userEntity);
     }
 }

@@ -30,7 +30,7 @@ public class UserEntity implements Serializable {
     /**
      * 头像附件id
      */
-    private Integer avatar;
+    private String avatar;
 
     /**
      * 签名

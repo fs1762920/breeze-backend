@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/label")
 @Slf4j
+@CrossOrigin
 public class LabelController {
 
     @Autowired

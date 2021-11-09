@@ -29,7 +29,7 @@ public class BaseReturnDto implements Serializable {
 
     public static BaseReturnDto success(int code, String message) {
         BaseReturnDto returnDto = new BaseReturnDto();
-        returnDto.setMsg("success");
+        returnDto.setMsg(message);
         return returnDto;
     }
 

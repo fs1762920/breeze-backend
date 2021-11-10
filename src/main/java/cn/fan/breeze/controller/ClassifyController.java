@@ -49,7 +49,9 @@ public class ClassifyController {
 
     @GetMapping("/find")
     public BaseReturnDto find() {
-        List<ClassifyEntity> classifyEntityList = classifyService.find(new ClassifyEntity());
+        ClassifyEntity param = new ClassifyEntity();
+        param.setEnabled(1);
+        List<ClassifyEntity> classifyEntityList = classifyService.find(param);
         return BaseReturnDto.success(classifyEntityList);
     }
 }

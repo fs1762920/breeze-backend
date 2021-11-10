@@ -5,6 +5,8 @@ import cn.fan.breeze.dao.BlogMapper;
 import cn.fan.breeze.entity.BlogEntity;
 import cn.fan.breeze.entity.BlogLabelEntity;
 import cn.fan.breeze.service.BlogService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,8 +42,38 @@ public class BlogServiceImpl implements BlogService {
                 blogLabelEntity.setLabelId(labelId);
                 blogLabelEntityList.add(blogLabelEntity);
             }
-            log.info("blogLabelEntityList: {}", blogLabelEntityList);
             blogLabelMapper.insertBatch(blogLabelEntityList);
         }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteById(Integer blogId) {
+        blogMapper.deleteByPrimaryKey(blogId);
+        blogLabelMapper.deleteByBlogId(blogId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void publish(BlogEntity param) {
+        blogMapper.updateByPrimaryKeySelective(param);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void move(BlogEntity param) {
+        blogMapper.updateByPrimaryKeySelective(param);
+    }
+
+    @Override
+    public PageInfo<BlogEntity> findByPage(BlogEntity blogEntity, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<BlogEntity> blogEntityList = blogMapper.selectBySelective(blogEntity);
+        return new PageInfo<>(blogEntityList);
+    }
+
+    @Override
+    public void update(BlogEntity blogEntity) {
+        blogMapper.updateByPrimaryKeySelective(blogEntity);
     }
 }

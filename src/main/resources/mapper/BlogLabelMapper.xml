@@ -19,6 +19,10 @@
     delete from b_blog_label
     where bl_id = #{blId,jdbcType=INTEGER}
   </delete>
+  <delete id="deleteByBlogId" parameterType="java.lang.Integer">
+    delete from b_blog_label
+    where blog_id = #{blogId}
+  </delete>
   <insert id="insert" keyColumn="bl_id" keyProperty="blId" parameterType="cn.fan.breeze.entity.BlogLabelEntity" useGeneratedKeys="true">
     insert into b_blog_label (blog_id, label_id)
     values (#{blogId,jdbcType=INTEGER}, #{labelId,jdbcType=INTEGER})

@@ -58,6 +58,11 @@ public class BlogEntity implements Serializable {
      */
     private Integer commented;
 
+    /**
+     * 0 草稿    1 已发布    2 回收站
+     */
+    private Integer status;
+
     private ClassifyEntity classifyEntity;
 
     private List<LabelEntity> labelEntityList;

@@ -15,6 +15,7 @@
     <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
     <result column="topped" jdbcType="INTEGER" property="topped" />
     <result column="commented" jdbcType="INTEGER" property="commented" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <association property="classifyEntity" javaType="cn.fan.breeze.entity.ClassifyEntity">
       <id property="classifyId" column="classify_id"/>
       <result property="classifyName" column="classify_name"/>
@@ -28,34 +29,76 @@
   </resultMap>
   <sql id="Base_Column_List">
     blog_id, classify_id, title, markdown_content, html_content, reading_count, cover, 
-    summary, ctime, mtime, topped, commented
+    summary, ctime, mtime, topped, commented, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap">
     select
-            bg.blog_id,
-            bg.title,
-            bg.markdown_content,
-            bg.html_content,
-            bg.reading_count,
-            (select count(1) from b_comment where blog_id=bg.blog_id and is_valid=1) as comment_count,
-            bg.cover,
-            bg.summary,
-            bg.classify_id,
-            bg.ctime,
-            bg.mtime,
-            bg.topped,
-            bg.commented,
-            bc.classify_id,
-            bc.classify_name,
-            bc.classify_describe,
-            bl.label_id,
-            bl.label_name,
-            bl.label_describe
-        from b_blog bg
-            left join b_classify bc on bg.classify_id=bc.classify_id
-            left join b_blog_label bbl on bbl.b_id=bg.blog_id
-            left join b_label bl on bl.label_id=bbl.l_id
-        where bg.blog_id=#{blogId}
+          bg.blog_id,
+          bg.title,
+          bg.markdown_content,
+          bg.html_content,
+          bg.reading_count,
+          (select count(1) from b_comment where blog_id=bg.blog_id and is_valid=1) as comment_count,
+          bg.cover,
+          bg.summary,
+          bg.classify_id,
+          bg.ctime,
+          bg.mtime,
+          bg.topped,
+          bg.commented,
+          bg.status,
+          bc.classify_id,
+          bc.classify_name,
+          bc.classify_describe,
+          bl.label_id,
+          bl.label_name,
+          bl.label_describe
+      from b_blog bg
+          left join b_classify bc on bg.classify_id=bc.classify_id
+          left join b_blog_label bbl on bbl.b_id=bg.blog_id
+          left join b_label bl on bl.label_id=bbl.l_id
+      where bg.blog_id=#{blogId}
+  </select>
+  <select id="selectBySelective" resultMap="BaseResultMap">
+    select
+          bg.blog_id,
+          bg.title,
+          bg.markdown_content,
+          bg.html_content,
+          bg.reading_count,
+          (select count(1) from b_comment where blog_id=bg.blog_id and is_valid=1) as comment_count,
+          bg.cover,
+          bg.summary,
+          bg.classify_id,
+          bg.ctime,
+          bg.mtime,
+          bg.topped,
+          bg.commented,
+          bg.status,
+          bc.classify_id,
+          bc.classify_name,
+          bc.classify_describe,
+          bl.label_id,
+          bl.label_name,
+          bl.label_describe
+      from b_blog bg
+          left join b_classify bc on bg.classify_id=bc.classify_id
+          left join b_blog_label bbl on bbl.b_id=bg.blog_id
+          left join b_label bl on bl.label_id=bbl.l_id
+      <where>
+        <if test="title != null and title != ''">
+          and bg.title like concat('%', #{title}, '%')
+        </if>
+        <if test="summary != null and summary != ''">
+          and bg.summary like concat('%', #{summary}, '%')
+        </if>
+        <if test="status != null">
+          and bg.status = #{status}
+        </if>
+        <if test="classifyId != null">
+          and bc.classify_id = #{classifyId}
+        </if>
+      </where>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from b_blog
@@ -65,11 +108,11 @@
     insert into b_blog (classify_id, title, markdown_content, 
       html_content, reading_count, cover, 
       summary, ctime, mtime, 
-      topped, commented)
+      topped, commented, status)
     values (#{classifyId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{markdownContent,jdbcType=VARCHAR}, 
       #{htmlContent,jdbcType=VARCHAR}, #{readingCount,jdbcType=INTEGER}, #{cover,jdbcType=VARCHAR}, 
       #{summary,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, 
-      #{topped,jdbcType=INTEGER}, #{commented,jdbcType=INTEGER})
+      #{topped,jdbcType=INTEGER}, #{commented,jdbcType=INTEGER}, #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" keyColumn="blog_id" keyProperty="blogId" parameterType="cn.fan.breeze.entity.BlogEntity" useGeneratedKeys="true">
     insert into b_blog
@@ -107,6 +150,9 @@
       <if test="commented != null">
         commented,
       </if>
+      <if test="status != null">
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="classifyId != null">
@@ -141,6 +187,9 @@
       </if>
       <if test="commented != null">
         #{commented,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -180,6 +229,9 @@
       <if test="commented != null">
         commented = #{commented,jdbcType=INTEGER},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
     </set>
     where blog_id = #{blogId,jdbcType=INTEGER}
   </update>
@@ -195,7 +247,8 @@
       ctime = #{ctime,jdbcType=TIMESTAMP},
       mtime = #{mtime,jdbcType=TIMESTAMP},
       topped = #{topped,jdbcType=INTEGER},
-      commented = #{commented,jdbcType=INTEGER}
+      commented = #{commented,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
     where blog_id = #{blogId,jdbcType=INTEGER}
   </update>
 </mapper>

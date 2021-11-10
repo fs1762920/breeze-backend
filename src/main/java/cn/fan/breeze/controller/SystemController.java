@@ -38,4 +38,23 @@ public class SystemController {
         }
         return result;
     }
+
+    @GetMapping("/statistics")
+    public BaseReturnDto statistics() {
+        //博客数量
+
+        //评论数量
+
+        //阅读量
+
+        //建站时长
+
+        //分类数量
+
+        //标签数量
+
+        //友链数量
+
+        return BaseReturnDto.success(null);
+    }
 }

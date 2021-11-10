@@ -21,4 +21,6 @@ public interface BlogLabelMapper {
     int updateByPrimaryKey(BlogLabelEntity record);
 
     void insertBatch(@Param("blogLabelEntityList") List<BlogLabelEntity> blogLabelEntityList);
+
+    void deleteByBlogId(Integer blogId);
 }

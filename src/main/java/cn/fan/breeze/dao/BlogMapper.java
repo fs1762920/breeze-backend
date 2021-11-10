@@ -3,6 +3,8 @@ package cn.fan.breeze.dao;
 import cn.fan.breeze.entity.BlogEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface BlogMapper {
     int deleteByPrimaryKey(Integer blogId);
@@ -16,4 +18,6 @@ public interface BlogMapper {
     int updateByPrimaryKeySelective(BlogEntity record);
 
     int updateByPrimaryKey(BlogEntity record);
+
+    List<BlogEntity> selectBySelective(BlogEntity blogEntity);
 }

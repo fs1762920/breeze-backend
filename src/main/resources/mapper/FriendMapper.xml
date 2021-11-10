@@ -7,11 +7,12 @@
     <result column="avatar_path" jdbcType="VARCHAR" property="avatarPath" />
     <result column="personal_sign" jdbcType="VARCHAR" property="personalSign" />
     <result column="home_page" jdbcType="VARCHAR" property="homePage" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
   </resultMap>
   <sql id="Base_Column_List">
-    friend_id, nickname, avatar_path, personal_sign, home_page, ctime, mtime
+    friend_id, nickname, avatar_path, personal_sign, home_page, status, ctime, mtime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -19,16 +20,29 @@
     from b_friend
     where friend_id = #{friendId,jdbcType=INTEGER}
   </select>
+  <select id="selectBySelective" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from b_friend
+    <where>
+      <if test="nickname != null || nickname != ''">
+        and nickname like concat('%', #{nickname}, '%')
+      </if>
+      <if test="status != null">
+        and status = #{status}
+      </if>
+    </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from b_friend
     where friend_id = #{friendId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="friend_id" keyProperty="friendId" parameterType="cn.fan.breeze.entity.FriendEntity" useGeneratedKeys="true">
     insert into b_friend (nickname, avatar_path, personal_sign, 
-      home_page, ctime, mtime
+      home_page, status, ctime, mtime
       )
     values (#{nickname,jdbcType=VARCHAR}, #{avatarPath,jdbcType=VARCHAR}, #{personalSign,jdbcType=VARCHAR}, 
-      #{homePage,jdbcType=VARCHAR}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}
+      #{homePage,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" keyColumn="friend_id" keyProperty="friendId" parameterType="cn.fan.breeze.entity.FriendEntity" useGeneratedKeys="true">
@@ -45,6 +59,9 @@
       </if>
       <if test="homePage != null">
         home_page,
+      </if>
+      <if test="status != null">
+        status,
       </if>
       <if test="ctime != null">
         ctime,
@@ -65,6 +82,9 @@
       </if>
       <if test="homePage != null">
         #{homePage,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="ctime != null">
         #{ctime,jdbcType=TIMESTAMP},
@@ -89,6 +109,9 @@
       <if test="homePage != null">
         home_page = #{homePage,jdbcType=VARCHAR},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
       <if test="ctime != null">
         ctime = #{ctime,jdbcType=TIMESTAMP},
       </if>
@@ -104,6 +127,7 @@
       avatar_path = #{avatarPath,jdbcType=VARCHAR},
       personal_sign = #{personalSign,jdbcType=VARCHAR},
       home_page = #{homePage,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
       ctime = #{ctime,jdbcType=TIMESTAMP},
       mtime = #{mtime,jdbcType=TIMESTAMP}
     where friend_id = #{friendId,jdbcType=INTEGER}

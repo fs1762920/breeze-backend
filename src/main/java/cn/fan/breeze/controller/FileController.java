@@ -21,7 +21,7 @@ public class FileController {
 
     @SaCheckLogin
     @PostMapping("/upload")
-    public BaseReturnDto uploadImg(@RequestParam("file") MultipartFile file) throws IOException {
+    public BaseReturnDto upload(@RequestParam("file") MultipartFile file) throws IOException {
         return BaseReturnDto.success(fileService.upload(file));
     }
 }

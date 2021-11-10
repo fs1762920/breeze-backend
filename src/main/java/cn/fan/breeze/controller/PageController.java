@@ -21,10 +21,10 @@ public class PageController {
     @PostMapping("/save")
     public BaseReturnDto save(@RequestBody PageEntity pageEntity) {
         pageService.save(pageEntity);
-        return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "更新成功");
+        return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "发布成功");
     }
 
-    @PostMapping("/find")
+    @GetMapping("/find")
     public BaseReturnDto find(PageEntity pageEntity) {
         PageEntity result = pageService.find(pageEntity);
         return BaseReturnDto.success(result);

@@ -30,10 +30,15 @@ public class BlogServiceImpl implements BlogService {
     @Transactional(rollbackFor = Exception.class)
     public void save(BlogEntity blogEntity) {
         Date nowDate = new Date();
-        blogEntity.setReadingCount(0);
-        blogEntity.setCtime(nowDate);
         blogEntity.setMtime(nowDate);
-        blogMapper.insert(blogEntity);
+        if (blogEntity.getBlogId() != null) { //更新
+            blogMapper.updateByPrimaryKeySelective(blogEntity);
+            blogLabelMapper.deleteByBlogId(blogEntity.getBlogId());
+        } else { //新增
+            blogEntity.setReadingCount(0);
+            blogEntity.setCtime(nowDate);
+            blogMapper.insert(blogEntity);
+        }
         if (blogEntity.getLabelIds() != null && blogEntity.getLabelIds().length>0) {
             List<BlogLabelEntity> blogLabelEntityList = new ArrayList<>();
             for (Integer labelId:blogEntity.getLabelIds()) {
@@ -75,5 +80,10 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public void update(BlogEntity blogEntity) {
         blogMapper.updateByPrimaryKeySelective(blogEntity);
+    }
+
+    @Override
+    public BlogEntity findById(Integer blogId) {
+        return blogMapper.selectByPrimaryKey(blogId);
     }
 }

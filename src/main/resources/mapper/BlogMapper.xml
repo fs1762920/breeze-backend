@@ -55,8 +55,8 @@
           bl.label_describe
       from b_blog bg
           left join b_classify bc on bg.classify_id=bc.classify_id
-          left join b_blog_label bbl on bbl.b_id=bg.blog_id
-          left join b_label bl on bl.label_id=bbl.l_id
+          left join b_blog_label bbl on bbl.blog_id=bg.blog_id
+          left join b_label bl on bl.label_id=bbl.label_id
       where bg.blog_id=#{blogId}
   </select>
   <select id="selectBySelective" resultMap="BaseResultMap">
@@ -83,8 +83,8 @@
           bl.label_describe
       from b_blog bg
           left join b_classify bc on bg.classify_id=bc.classify_id
-          left join b_blog_label bbl on bbl.b_id=bg.blog_id
-          left join b_label bl on bl.label_id=bbl.l_id
+          left join b_blog_label bbl on bbl.blog_id=bg.blog_id
+          left join b_label bl on bl.label_id=bbl.label_id
       <where>
         <if test="title != null and title != ''">
           and bg.title like concat('%', #{title}, '%')

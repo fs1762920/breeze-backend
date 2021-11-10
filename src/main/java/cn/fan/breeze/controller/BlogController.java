@@ -43,6 +43,7 @@ public class BlogController {
      * @param pageSize
      * @return
      */
+    @SaCheckLogin
     @GetMapping("/findByPageBackend")
     public BaseReturnDto findByPageBackend(Integer pageNum, Integer pageSize) {
         PageInfo<BlogEntity> pageInfo = blogService.findByPage(new BlogEntity(), pageNum, pageSize);
@@ -73,6 +74,12 @@ public class BlogController {
         return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "发布成功");
     }
 
+    @GetMapping("/findOne")
+    public BaseReturnDto findOne(Integer blogId) {
+        BlogEntity blogEntity = blogService.findById(blogId);
+        return BaseReturnDto.success(blogEntity);
+    }
+
     /**
      * 移入回收站
      * @param blogId
@@ -87,6 +94,7 @@ public class BlogController {
         blogService.move(param);
         return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "已成功移入回收站!");
     }
+
 
     @SaCheckLogin
     @GetMapping("/publish")

@@ -15,4 +15,6 @@ public interface BlogService {
     PageInfo<BlogEntity> findByPage(BlogEntity blogEntity, Integer pageNum, Integer pageSize);
 
     void update(BlogEntity blogEntity);
+
+    BlogEntity findById(Integer blogId);
 }

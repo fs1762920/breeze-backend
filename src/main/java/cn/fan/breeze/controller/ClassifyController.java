@@ -1,5 +1,6 @@
 package cn.fan.breeze.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.fan.breeze.common.BaseReturnDto;
 import cn.fan.breeze.entity.ClassifyEntity;
 import cn.fan.breeze.service.ClassifyService;
@@ -19,18 +20,21 @@ public class ClassifyController {
     @Autowired
     private ClassifyService classifyService;
 
+    @SaCheckLogin
     @PostMapping("/save")
     public BaseReturnDto save(@RequestBody ClassifyEntity classifyEntity) {
         classifyService.save(classifyEntity);
         return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "添加成功");
     }
 
+    @SaCheckLogin
     @PostMapping("/update")
     public BaseReturnDto update(@RequestBody ClassifyEntity classifyEntity) {
         classifyService.update(classifyEntity);
         return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "更新成功");
     }
 
+    @SaCheckLogin
     @GetMapping("/delete")
     public BaseReturnDto delete(Integer classifyId) {
         classifyService.deleteById(classifyId);

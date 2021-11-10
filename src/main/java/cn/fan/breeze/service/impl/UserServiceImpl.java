@@ -6,6 +6,7 @@ import cn.fan.breeze.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,11 +18,11 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public boolean initWebmasterInfo(UserEntity userEntity) {
         boolean result = false;
         List<UserEntity> userEntityList = userMapper.selectBySelective(new UserEntity());
         if (userEntityList.isEmpty()) {
-
             userMapper.insert(userEntity);
             result = true;
         }
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void update(UserEntity loginUpdate) {
         userMapper.updateByPrimaryKeySelective(loginUpdate);
     }

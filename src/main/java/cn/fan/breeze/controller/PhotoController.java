@@ -1,5 +1,6 @@
 package cn.fan.breeze.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.fan.breeze.common.BaseReturnDto;
 import cn.fan.breeze.entity.PhotoEntity;
 import cn.fan.breeze.service.PhotoService;
@@ -20,6 +21,7 @@ public class PhotoController {
     @Autowired
     private PhotoService photoService;
 
+    @SaCheckLogin
     @PostMapping("/upload")
     public BaseReturnDto upload(@RequestParam("files") MultipartFile[] files) throws IOException {
         photoService.upload(files);
@@ -38,12 +40,14 @@ public class PhotoController {
         return BaseReturnDto.success(photoEntity);
     }
 
+    @SaCheckLogin
     @GetMapping("/delete")
     public BaseReturnDto delete(Integer photoId) {
         photoService.deleteById(photoId);
         return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "删除成功");
     }
 
+    @SaCheckLogin
     @GetMapping("/deleteBatch")
     public BaseReturnDto deleteBatch(Integer[] photoIds) {
         photoService.deleteBatch(photoIds);

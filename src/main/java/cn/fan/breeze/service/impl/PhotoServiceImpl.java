@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -34,6 +35,7 @@ public class PhotoServiceImpl implements PhotoService {
     private String pathPrefix;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void upload(MultipartFile[] files) throws IOException {
         List<PhotoEntity> photoEntityList = new ArrayList<>();
         Date nowDate = new Date();
@@ -55,10 +57,15 @@ public class PhotoServiceImpl implements PhotoService {
             photoEntity.setDisplayName(originalFileName);
             photoEntity.setOriginalName(dealedFileName);
             photoEntity.setPhotoPath(pathPrefix + '/' + dealedFileName);
+            photoEntity.setWidth(width);
+            photoEntity.setHeight(height);
+            photoEntity.setSize(size);
+            photoEntity.setMimeType(mimeType);
             photoEntity.setCtime(nowDate);
             photoEntity.setMtime(nowDate);
             photoEntityList.add(photoEntity);
         }
+        log.info("上传图片: {}", photoEntityList);
         photoMapper.insertBatch(photoEntityList);
     }
 
@@ -75,11 +82,13 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteBatch(Integer[] photoIds) {
         photoMapper.deleteBatch(photoIds);
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteById(Integer photoId) {
         photoMapper.deleteByPrimaryKey(photoId);
     }

@@ -1,5 +1,6 @@
 package cn.fan.breeze.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.fan.breeze.common.BaseReturnDto;
 import cn.fan.breeze.service.FileService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
+    @SaCheckLogin
     @PostMapping("/upload")
     public BaseReturnDto uploadImg(@RequestParam("file") MultipartFile file) throws IOException {
         return BaseReturnDto.success(fileService.upload(file));

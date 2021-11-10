@@ -6,6 +6,7 @@ import cn.fan.breeze.service.PageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -22,6 +23,7 @@ public class PageServiceImpl implements PageService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(PageEntity pageEntity) {
         Date nowDate = new Date();
         pageEntity.setMtime(nowDate);

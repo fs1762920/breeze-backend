@@ -62,7 +62,7 @@ public class UserController {
         return result;
     }
 
-
+    @SaCheckLogin
     @GetMapping("/logout")
     public BaseReturnDto logout(HttpServletRequest request) {
         log.info("token: {}", request.getHeader("satoken").replace(tokenPrefix, "").trim());
@@ -72,6 +72,7 @@ public class UserController {
         return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "注销成功");
     }
 
+    @SaCheckLogin
     @PostMapping("/update")
     public BaseReturnDto update(@RequestBody UserEntity userEntity) {
         int userId = StpUtil.getLoginIdAsInt();
@@ -103,6 +104,7 @@ public class UserController {
         return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "密码修改成功, 请重新登录!");
     }
 
+    @SaCheckLogin
     @GetMapping("/userInfo")
     public BaseReturnDto userInfo() {
         int userId = StpUtil.getLoginIdAsInt();

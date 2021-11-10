@@ -35,7 +35,7 @@ public class PhotoEntity implements Serializable {
     /**
      * 图片大小  byte
      */
-    private String size;
+    private Long size;
 
     private String mimeType;
 

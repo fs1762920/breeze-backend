@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ public class ClassifyServiceImpl implements ClassifyService {
     private ClassifyMapper classifyMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(ClassifyEntity classifyEntity) {
         Date nowDate = new Date();
         classifyEntity.setCtime(nowDate);
@@ -28,6 +30,7 @@ public class ClassifyServiceImpl implements ClassifyService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void update(ClassifyEntity classifyEntity) {
         Date nowDate = new Date();
         classifyEntity.setMtime(nowDate);
@@ -35,6 +38,7 @@ public class ClassifyServiceImpl implements ClassifyService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteById(Integer classifyId) {
         classifyMapper.deleteByPrimaryKey(classifyId);
     }

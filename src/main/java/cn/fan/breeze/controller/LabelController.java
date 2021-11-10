@@ -1,5 +1,6 @@
 package cn.fan.breeze.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.fan.breeze.common.BaseReturnDto;
 import cn.fan.breeze.entity.LabelEntity;
 import cn.fan.breeze.service.LabelService;
@@ -18,12 +19,14 @@ public class LabelController {
     @Autowired
     private LabelService labelService;
 
+    @SaCheckLogin
     @PostMapping("/save")
     public BaseReturnDto save(@RequestBody LabelEntity labelEntity) {
         labelService.save(labelEntity);
         return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "添加成功");
     }
 
+    @SaCheckLogin
     @PostMapping("/update")
     public BaseReturnDto update(@RequestBody LabelEntity labelEntity) {
         labelService.update(labelEntity);
@@ -36,6 +39,7 @@ public class LabelController {
         return BaseReturnDto.success(labelEntityList);
     }
 
+    @SaCheckLogin
     @GetMapping("/delete")
     public BaseReturnDto delete(Integer labelId) {
         labelService.deleteById(labelId);

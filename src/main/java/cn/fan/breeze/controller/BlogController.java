@@ -1,5 +1,6 @@
 package cn.fan.breeze.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.fan.breeze.common.BaseReturnDto;
 import cn.fan.breeze.entity.BlogEntity;
 import cn.fan.breeze.service.BlogService;
@@ -16,6 +17,7 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
+    @SaCheckLogin
     @PostMapping("/save")
     public BaseReturnDto save(@RequestBody BlogEntity blogEntity) {
         blogService.save(blogEntity);

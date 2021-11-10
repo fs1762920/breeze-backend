@@ -8,6 +8,7 @@ import cn.fan.breeze.service.BlogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,6 +25,7 @@ public class BlogServiceImpl implements BlogService {
     private BlogLabelMapper blogLabelMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(BlogEntity blogEntity) {
         Date nowDate = new Date();
         blogEntity.setReadingCount(0);

@@ -1,5 +1,6 @@
 package cn.fan.breeze.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.fan.breeze.common.BaseReturnDto;
 import cn.fan.breeze.entity.PageEntity;
 import cn.fan.breeze.service.PageService;
@@ -16,6 +17,7 @@ public class PageController {
     @Autowired
     private PageService pageService;
 
+    @SaCheckLogin
     @PostMapping("/save")
     public BaseReturnDto save(@RequestBody PageEntity pageEntity) {
         pageService.save(pageEntity);

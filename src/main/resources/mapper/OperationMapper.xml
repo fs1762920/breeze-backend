@@ -17,6 +17,16 @@
     from b_operation
     where operation_id = #{operationId,jdbcType=INTEGER}
   </select>
+  <select id="selectBySelective" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from b_operation order by ctime desc
+  </select>
+  <select id="findLatest" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from b_operation order by ctime desc limit 5
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from b_operation
     where operation_id = #{operationId,jdbcType=INTEGER}

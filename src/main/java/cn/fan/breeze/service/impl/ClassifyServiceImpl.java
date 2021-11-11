@@ -1,7 +1,9 @@
 package cn.fan.breeze.service.impl;
 
 import cn.fan.breeze.dao.ClassifyMapper;
+import cn.fan.breeze.dao.OperationMapper;
 import cn.fan.breeze.entity.ClassifyEntity;
+import cn.fan.breeze.entity.OperationEntity;
 import cn.fan.breeze.service.ClassifyService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -20,6 +22,9 @@ public class ClassifyServiceImpl implements ClassifyService {
     @Autowired
     private ClassifyMapper classifyMapper;
 
+    @Autowired
+    private OperationMapper operationMapper;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(ClassifyEntity classifyEntity) {
@@ -27,6 +32,13 @@ public class ClassifyServiceImpl implements ClassifyService {
         classifyEntity.setCtime(nowDate);
         classifyEntity.setMtime(nowDate);
         classifyMapper.insert(classifyEntity);
+
+        OperationEntity operationEntity = new OperationEntity();
+        operationEntity.setCtime(nowDate);
+        operationEntity.setMtime(nowDate);
+        operationEntity.setAction("分类新增");
+        operationEntity.setRelevance(classifyEntity.getClassifyName());
+        operationMapper.insert(operationEntity);
     }
 
     @Override
@@ -40,6 +52,16 @@ public class ClassifyServiceImpl implements ClassifyService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteById(Integer classifyId) {
+        ClassifyEntity deleteClassifyEntity = classifyMapper.selectByPrimaryKey(classifyId);
+        if (deleteClassifyEntity != null) {
+            Date nowDate = new Date();
+            OperationEntity operationEntity = new OperationEntity();
+            operationEntity.setCtime(nowDate);
+            operationEntity.setMtime(nowDate);
+            operationEntity.setAction("分类删除");
+            operationEntity.setRelevance(deleteClassifyEntity.getClassifyName());
+            operationMapper.insert(operationEntity);
+        }
         classifyMapper.deleteByPrimaryKey(classifyId);
     }
 

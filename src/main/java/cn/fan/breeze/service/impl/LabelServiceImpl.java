@@ -1,7 +1,9 @@
 package cn.fan.breeze.service.impl;
 
 import cn.fan.breeze.dao.LabelMapper;
+import cn.fan.breeze.dao.OperationMapper;
 import cn.fan.breeze.entity.LabelEntity;
+import cn.fan.breeze.entity.OperationEntity;
 import cn.fan.breeze.service.LabelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class LabelServiceImpl implements LabelService {
     @Autowired
     private LabelMapper labelMapper;
 
+    @Autowired
+    private OperationMapper operationMapper;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(LabelEntity labelEntity) {
@@ -25,6 +30,13 @@ public class LabelServiceImpl implements LabelService {
         labelEntity.setCtime(nowDate);
         labelEntity.setMtime(nowDate);
         labelMapper.insert(labelEntity);
+
+        OperationEntity operationEntity = new OperationEntity();
+        operationEntity.setCtime(nowDate);
+        operationEntity.setMtime(nowDate);
+        operationEntity.setAction("标签新增");
+        operationEntity.setRelevance(labelEntity.getLabelName());
+        operationMapper.insert(operationEntity);
     }
 
     @Override
@@ -43,6 +55,16 @@ public class LabelServiceImpl implements LabelService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteById(Integer labelId) {
+        LabelEntity deleteLabelEntity = labelMapper.selectByPrimaryKey(labelId);
+        if (deleteLabelEntity != null) {
+            Date nowDate = new Date();
+            OperationEntity operationEntity = new OperationEntity();
+            operationEntity.setCtime(nowDate);
+            operationEntity.setMtime(nowDate);
+            operationEntity.setAction("标签删除");
+            operationEntity.setRelevance(deleteLabelEntity.getLabelName());
+            operationMapper.insert(operationEntity);
+        }
         labelMapper.deleteByPrimaryKey(labelId);
     }
 }

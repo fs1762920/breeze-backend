@@ -3,6 +3,8 @@ package cn.fan.breeze.dao;
 import cn.fan.breeze.entity.OperationEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface OperationMapper {
     int deleteByPrimaryKey(Integer operationId);
@@ -16,4 +18,8 @@ public interface OperationMapper {
     int updateByPrimaryKeySelective(OperationEntity record);
 
     int updateByPrimaryKey(OperationEntity record);
+
+    List<OperationEntity> selectBySelective(OperationEntity operationEntity);
+
+    List<OperationEntity> findLatest();
 }

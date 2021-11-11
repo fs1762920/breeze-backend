@@ -31,5 +31,7 @@ public class ClassifyEntity implements Serializable {
      */
     private Integer enabled;
 
+    private Integer blogCount;
+
     private static final long serialVersionUID = 1L;
 }

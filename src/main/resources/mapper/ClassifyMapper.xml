@@ -8,6 +8,7 @@
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
     <result column="enabled" jdbcType="INTEGER" property="enabled" />
+    <result column="blog_count" jdbcType="INTEGER" property="blogCount" />
   </resultMap>
   <sql id="Base_Column_List">
     classify_id, classify_name, classify_describe, ctime, mtime, enabled
@@ -20,8 +21,9 @@
   </select>
   <select id="selectBySelective" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
-    from b_classify
+        c.classify_id, c.classify_name, c.classify_describe, c.ctime, c.mtime, c.enabled,
+        (select count(1) from b_blog b where b.classify_id = c.classify_id and b.status = 1) as blog_count
+    from b_classify c
     <where>
       <if test="classifyName != null">
         classify_name like concat('%', #{classifyName}, '%')

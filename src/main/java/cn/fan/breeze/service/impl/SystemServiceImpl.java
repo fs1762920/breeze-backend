@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.Map;
 @Service
 @Slf4j
 public class SystemServiceImpl implements SystemService {
+
+    public static final DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Autowired
     private BlogMapper blogMapper;
@@ -36,8 +40,8 @@ public class SystemServiceImpl implements SystemService {
     private FriendMapper friendMapper;
 
     @Override
-    public Map<String, Number> websiteInfo() {
-        Map<String, Number> result = new HashMap<>();
+    public Map<String, Object> websiteInfo() {
+        Map<String, Object> result = new HashMap<>();
 
         //博客数量
         Integer blogCount = blogMapper.getCount();
@@ -52,6 +56,7 @@ public class SystemServiceImpl implements SystemService {
         List<UserEntity> userEntityList = userMapper.selectBySelective(new UserEntity());
         if (userEntityList.size() == 1) {
             Date buildTime = userEntityList.get(0).getCtime();
+            result.put("buildTime", format.format(buildTime));
             long currentMillion = new Date().getTime();
             long buildDurationMillion = currentMillion - buildTime.getTime();
             long buildDuration = buildDurationMillion / (1000 * 60 * 60 * 24);

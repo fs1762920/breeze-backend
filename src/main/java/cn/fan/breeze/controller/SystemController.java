@@ -4,11 +4,15 @@ import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.fan.breeze.common.BaseReturnDto;
 import cn.fan.breeze.constant.ExceptionEnum;
 import cn.fan.breeze.entity.UserEntity;
+import cn.fan.breeze.service.SystemService;
 import cn.fan.breeze.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/system")
@@ -25,6 +29,9 @@ public class SystemController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SystemService systemService;
+
     @PostMapping("/initWebmasterInfo")
     public BaseReturnDto initWebmasterInfo(@RequestBody UserEntity userEntity) {
         String encodePassword = SaSecureUtil.rsaEncryptByPublic(publicKey, userEntity.getPassword());
@@ -39,22 +46,24 @@ public class SystemController {
         return result;
     }
 
-    @GetMapping("/statistics")
-    public BaseReturnDto statistics() {
-        //博客数量
+    @GetMapping("/webmasterInfo")
+    public BaseReturnDto webmasterInfo() {
+        BaseReturnDto result;
+        List<UserEntity> userEntityList = userService.find(new UserEntity());
+        if (userEntityList.size() != 1) {
+            result = BaseReturnDto.error(ExceptionEnum.WEBMASTER_ERROR);
+        } else {
+            UserEntity userEntity = userEntityList.get(0);
+            userEntity.setToken(null);
+            userEntity.setPassword(null);
+            result = BaseReturnDto.success(userEntity);
+        }
+        return result;
+    }
 
-        //评论数量
-
-        //阅读量
-
-        //建站时长
-
-        //分类数量
-
-        //标签数量
-
-        //友链数量
-
-        return BaseReturnDto.success(null);
+    @GetMapping("/websiteInfo")
+    public BaseReturnDto websiteInfo() {
+        Map<String, Number> result = systemService.websiteInfo();
+        return BaseReturnDto.success(result);
     }
 }

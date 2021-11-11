@@ -39,9 +39,9 @@ public class BlogServiceImpl implements BlogService {
             blogEntity.setCtime(nowDate);
             blogMapper.insert(blogEntity);
         }
-        if (blogEntity.getLabelIds() != null && blogEntity.getLabelIds().length>0) {
+        if (blogEntity.getLabelIds() != null && blogEntity.getLabelIds().length > 0) {
             List<BlogLabelEntity> blogLabelEntityList = new ArrayList<>();
-            for (Integer labelId:blogEntity.getLabelIds()) {
+            for (Integer labelId : blogEntity.getLabelIds()) {
                 BlogLabelEntity blogLabelEntity = new BlogLabelEntity();
                 blogLabelEntity.setBlogId(blogEntity.getBlogId());
                 blogLabelEntity.setLabelId(labelId);
@@ -83,7 +83,23 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public BlogEntity findById(Integer blogId) {
-        return blogMapper.selectByPrimaryKey(blogId);
+        BlogEntity blogEntity = blogMapper.selectByPrimaryKey(blogId);
+        if (blogEntity != null && !blogEntity.getLabelEntityList().isEmpty()) {
+            // 更新阅读量
+            blogMapper.increaseReadingCount(blogId);
+            Integer[] labelIds = new Integer[blogEntity.getLabelEntityList().size()];
+            for (int i = 0; i < blogEntity.getLabelEntityList().size(); i++) {
+                labelIds[i] = blogEntity.getLabelEntityList().get(i).getLabelId();
+            }
+            blogEntity.setLabelIds(labelIds);
+        }
+        return blogEntity;
+    }
+
+    @Override
+    public List<BlogEntity> findLatest() {
+        return blogMapper.findLatest();
     }
 }

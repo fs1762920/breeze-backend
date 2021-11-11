@@ -20,4 +20,6 @@ public interface LabelMapper {
     int updateByPrimaryKey(LabelEntity record);
 
     List<LabelEntity> selectBySelective(LabelEntity labelEntity);
+
+    Integer getCount();
 }

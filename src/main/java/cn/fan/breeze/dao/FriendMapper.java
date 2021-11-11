@@ -20,4 +20,6 @@ public interface FriendMapper {
     int updateByPrimaryKey(FriendEntity record);
 
     List<FriendEntity> selectBySelective(FriendEntity friendEntity);
+
+    Integer getCount();
 }

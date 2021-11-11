@@ -59,6 +59,18 @@
           left join b_label bl on bl.label_id=bbl.label_id
       where bg.blog_id=#{blogId}
   </select>
+  <select id="findLatest" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from b_blog
+    where status = 1 order by mtime desc limit 5
+  </select>
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(1) from b_blog where status = 1
+  </select>
+  <select id="getReadingCount" resultType="java.lang.Integer">
+    select sum(reading_count) from b_blog where status = 1
+  </select>
   <select id="selectBySelective" resultMap="BaseResultMap">
     select
           bg.blog_id,
@@ -250,5 +262,10 @@
       commented = #{commented,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER}
     where blog_id = #{blogId,jdbcType=INTEGER}
+  </update>
+  <update id="increaseReadingCount" parameterType="java.lang.Integer">
+    update b_blog
+    set reading_count = reading_count + 1
+    where blog_id = #{blogId}
   </update>
 </mapper>

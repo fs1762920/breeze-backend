@@ -20,4 +20,12 @@ public interface BlogMapper {
     int updateByPrimaryKey(BlogEntity record);
 
     List<BlogEntity> selectBySelective(BlogEntity blogEntity);
+
+    Integer getCount();
+
+    Integer getReadingCount();
+
+    void increaseReadingCount(Integer blogId);
+
+    List<BlogEntity> findLatest();
 }

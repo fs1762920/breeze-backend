@@ -3,6 +3,8 @@ package cn.fan.breeze.service;
 import cn.fan.breeze.entity.BlogEntity;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 public interface BlogService {
     void save(BlogEntity blogEntity);
 
@@ -17,4 +19,6 @@ public interface BlogService {
     void update(BlogEntity blogEntity);
 
     BlogEntity findById(Integer blogId);
+
+    List<BlogEntity> findLatest();
 }

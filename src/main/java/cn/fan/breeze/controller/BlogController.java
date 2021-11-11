@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/blog")
 @Slf4j
@@ -65,6 +67,12 @@ public class BlogController {
         blogEntity.setStatus(1);
         PageInfo<BlogEntity> pageInfo = blogService.findByPage(blogEntity, pageNum, pageSize);
         return BaseReturnDto.success(pageInfo);
+    }
+
+    @GetMapping("/findLatest")
+    public BaseReturnDto findLatest() {
+        List<BlogEntity> blogEntityList = blogService.findLatest();
+        return BaseReturnDto.success(blogEntityList);
     }
 
     @SaCheckLogin

@@ -32,6 +32,9 @@
     </where>
     order by mtime desc
   </select>
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(1) from b_classify
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from b_classify
     where classify_id = #{classifyId,jdbcType=INTEGER}

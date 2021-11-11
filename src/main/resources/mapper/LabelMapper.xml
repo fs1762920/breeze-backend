@@ -28,6 +28,9 @@
     </where>
     order by mtime
   </select>
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(1) from b_label
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from b_label
     where label_id = #{labelId,jdbcType=INTEGER}

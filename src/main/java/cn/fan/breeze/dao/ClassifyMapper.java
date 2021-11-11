@@ -20,4 +20,6 @@ public interface ClassifyMapper {
     int updateByPrimaryKeySelective(ClassifyEntity record);
 
     int updateByPrimaryKey(ClassifyEntity record);
+
+    Integer getCount();
 }

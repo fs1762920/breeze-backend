@@ -16,4 +16,6 @@ public interface CommentMapper {
     int updateByPrimaryKeySelective(CommentEntity record);
 
     int updateByPrimaryKey(CommentEntity record);
+
+    Integer getCount();
 }

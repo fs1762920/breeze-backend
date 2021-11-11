@@ -16,6 +16,7 @@ public enum ExceptionEnum {
     DATA_REPEAT_CODE(407, "数据已存在!"),
     INTERNAL_SERVER_ERROR(500, "服务器内部错误!"),
     SERVER_BUSY(503,"服务器正忙，请稍后再试!"),
+    WEBMASTER_ERROR(504,"获取博主信息失败!"),
 
 
     INIT_WEBMASTER_REPEAT(506, "站长信息重复初始化!"),

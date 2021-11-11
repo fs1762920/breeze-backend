@@ -21,6 +21,9 @@
     from b_comment
     where comment_id = #{commentId,jdbcType=INTEGER}
   </select>
+  <select id="getCount" resultType="java.lang.Integer">
+    select count(1) from b_comment where is_valid = 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from b_comment
     where comment_id = #{commentId,jdbcType=INTEGER}

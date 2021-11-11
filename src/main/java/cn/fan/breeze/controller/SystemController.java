@@ -1,5 +1,6 @@
 package cn.fan.breeze.controller;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.fan.breeze.common.BaseReturnDto;
 import cn.fan.breeze.constant.ExceptionEnum;
@@ -61,6 +62,7 @@ public class SystemController {
         return result;
     }
 
+    @SaCheckLogin
     @GetMapping("/websiteInfo")
     public BaseReturnDto websiteInfo() {
         Map<String, Number> result = systemService.websiteInfo();

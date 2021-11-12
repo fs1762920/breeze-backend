@@ -49,6 +49,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public void update(FriendEntity friendEntity) {
+        friendEntity.setStatus(1);
         friendEntity.setMtime(new Date());
         friendMapper.updateByPrimaryKeySelective(friendEntity);
     }

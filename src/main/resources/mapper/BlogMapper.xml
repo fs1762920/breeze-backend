@@ -110,6 +110,9 @@
         <if test="classifyId != null">
           and bc.classify_id = #{classifyId}
         </if>
+        <if test="labelId != null">
+          and bl.label_id = #{labelId}
+        </if>
       </where>
       order by bg.mtime desc
   </select>

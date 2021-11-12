@@ -18,6 +18,8 @@ public class BlogEntity implements Serializable {
 
     private Integer[] labelIds;
 
+    private Integer labelId;
+
     private String title;
 
     /**

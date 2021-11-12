@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -34,10 +35,10 @@ public class SystemController {
     private SystemService systemService;
 
     @PostMapping("/initWebmasterInfo")
-    public BaseReturnDto initWebmasterInfo(@RequestBody UserEntity userEntity) {
+    public BaseReturnDto initWebmasterInfo(@RequestBody UserEntity userEntity, HttpServletRequest request) {
         String encodePassword = SaSecureUtil.rsaEncryptByPublic(publicKey, userEntity.getPassword());
         userEntity.setPassword(encodePassword);
-        boolean initResult = userService.initWebmasterInfo(userEntity);
+        boolean initResult = userService.initWebmasterInfo(userEntity, request);
         BaseReturnDto result;
         if (initResult) {
             result = BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "站长信息初始化完成...");

@@ -62,7 +62,6 @@ public class SystemController {
         return result;
     }
 
-    @SaCheckLogin
     @GetMapping("/websiteInfo")
     public BaseReturnDto websiteInfo() {
         Map<String, Object> result = systemService.websiteInfo();

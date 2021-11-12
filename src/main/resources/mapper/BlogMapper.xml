@@ -89,10 +89,10 @@
           bg.status,
           bc.classify_id,
           bc.classify_name,
-          bc.classify_describe,
-          bl.label_id,
-          bl.label_name,
-          bl.label_describe
+          bc.classify_describe
+--           bl.label_id,
+--           bl.label_name,
+--           bl.label_describe
       from b_blog bg
           left join b_classify bc on bg.classify_id=bc.classify_id
           left join b_blog_label bbl on bbl.blog_id=bg.blog_id

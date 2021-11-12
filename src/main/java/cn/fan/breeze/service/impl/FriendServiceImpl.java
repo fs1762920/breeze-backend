@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,8 +20,11 @@ public class FriendServiceImpl implements FriendService {
     private FriendMapper friendMapper;
 
     @Override
-    public void apply(FriendEntity friendEntity) {
-        friendEntity.setStatus(0);
+    public void save(FriendEntity friendEntity) {
+        Date nowDate = new Date();
+        friendEntity.setStatus(1);
+        friendEntity.setCtime(nowDate);
+        friendEntity.setMtime(nowDate);
         friendMapper.insert(friendEntity);
     }
 
@@ -29,11 +33,6 @@ public class FriendServiceImpl implements FriendService {
         PageHelper.startPage(pageNum, pageSize);
         List<FriendEntity> friendEntityList = friendMapper.selectBySelective(new FriendEntity());
         return new PageInfo<>(friendEntityList);
-    }
-
-    @Override
-    public void audit(FriendEntity friendEntity) {
-        friendMapper.updateByPrimaryKeySelective(friendEntity);
     }
 
     @Override
@@ -46,5 +45,11 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public void deleteById(Integer friendId) {
         friendMapper.deleteByPrimaryKey(friendId);
+    }
+
+    @Override
+    public void update(FriendEntity friendEntity) {
+        friendEntity.setMtime(new Date());
+        friendMapper.updateByPrimaryKeySelective(friendEntity);
     }
 }

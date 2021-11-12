@@ -20,10 +20,18 @@ public class FriendController {
     @Autowired
     private FriendService friendService;
 
-    @PostMapping("/apply")
-    public BaseReturnDto apply(@RequestBody FriendEntity friendEntity) {
-        friendService.apply(friendEntity);
-        return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "申请提交成功");
+    @SaCheckLogin
+    @PostMapping("/save")
+    public BaseReturnDto save(@RequestBody FriendEntity friendEntity) {
+        friendService.save(friendEntity);
+        return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "添加成功");
+    }
+
+    @SaCheckLogin
+    @PostMapping("/update")
+    public BaseReturnDto update(@RequestBody FriendEntity friendEntity) {
+        friendService.update(friendEntity);
+        return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "更新成功");
     }
 
     @SaCheckLogin
@@ -37,18 +45,6 @@ public class FriendController {
     public BaseReturnDto find() {
         List<FriendEntity> friendEntityList = friendService.find();
         return BaseReturnDto.success(friendEntityList);
-    }
-
-    /**
-     * 审核
-     * @param friendEntity
-     * @return
-     */
-    @SaCheckLogin
-    @GetMapping("/audit")
-    public BaseReturnDto audit(FriendEntity friendEntity) {
-        friendService.audit(friendEntity);
-        return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "审核通过!");
     }
 
     @SaCheckLogin

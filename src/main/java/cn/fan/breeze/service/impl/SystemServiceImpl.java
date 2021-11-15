@@ -28,6 +28,9 @@ public class SystemServiceImpl implements SystemService {
     private CommentMapper commentMapper;
 
     @Autowired
+    private ReplyMapper replyMapper;
+
+    @Autowired
     private UserMapper userMapper;
 
     @Autowired
@@ -48,7 +51,8 @@ public class SystemServiceImpl implements SystemService {
         result.put("blogCount", blogCount);
         //评论数量
         Integer commentCount = commentMapper.getCount();
-        result.put("commentCount", commentCount);
+        Integer replyCount = replyMapper.getCount();
+        result.put("commentCount", commentCount + replyCount);
         //阅读量
         Integer readingCount = blogMapper.getReadingCount();
         result.put("readingCount", readingCount);

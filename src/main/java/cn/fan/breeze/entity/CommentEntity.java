@@ -2,6 +2,8 @@ package cn.fan.breeze.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+
 import lombok.Data;
 
 /**
@@ -10,6 +12,7 @@ import lombok.Data;
  */
 @Data
 public class CommentEntity implements Serializable {
+    
     private Integer commentId;
 
     /**
@@ -17,17 +20,14 @@ public class CommentEntity implements Serializable {
      */
     private Integer srcId;
 
-    private Integer targetId;
+    private String srcNickname;
+
+    private String srcAvatarPath;
 
     /**
      * 评论内容
      */
     private String content;
-
-    /**
-     * 0 评论   1 回复
-     */
-    private Integer type;
 
     /**
      * -1 关于页面   >=1 博客id
@@ -42,6 +42,8 @@ public class CommentEntity implements Serializable {
     private Date ctime;
 
     private Date mtime;
+
+    private List<ReplyEntity> replyEntityList;
 
     private static final long serialVersionUID = 1L;
 }

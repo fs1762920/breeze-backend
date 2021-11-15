@@ -4,16 +4,31 @@
   <resultMap id="BaseResultMap" type="cn.fan.breeze.entity.CommentEntity">
     <id column="comment_id" jdbcType="INTEGER" property="commentId" />
     <result column="src_id" jdbcType="INTEGER" property="srcId" />
-    <result column="target_id" jdbcType="INTEGER" property="targetId" />
+    <result column="src_nickname" jdbcType="INTEGER" property="srcNickname" />
+    <result column="src_avatar_path" jdbcType="INTEGER" property="srcAvatarPath" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="type" jdbcType="INTEGER" property="type" />
     <result column="blog_id" jdbcType="INTEGER" property="blogId" />
     <result column="is_valid" jdbcType="INTEGER" property="isValid" />
     <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
     <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
+    <collection property="replyEntityList" column="comment_id" javaType="java.util.List" ofType="cn.fan.breeze.entity.ReplyEntity" select="findByCommentId">
+      <id column="reply_id" jdbcType="INTEGER" property="replyId" />
+      <result column="src_id" jdbcType="INTEGER" property="srcId" />
+      <result column="src_nickname" jdbcType="INTEGER" property="srcNickname" />
+      <result column="src_avatar_path" jdbcType="INTEGER" property="srcAvatarPath" />
+      <result column="target_id" jdbcType="INTEGER" property="targetId" />
+      <result column="target_nickname" jdbcType="INTEGER" property="targetNickname" />
+      <result column="target_avatar_path" jdbcType="INTEGER" property="targetAvatarPath" />
+      <result column="content" jdbcType="VARCHAR" property="content" />
+      <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+      <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
+      <result column="is_valid" jdbcType="INTEGER" property="isValid" />
+      <result column="comment_id" jdbcType="INTEGER" property="commentId" />
+      <result column="blog_id" jdbcType="INTEGER" property="blogId" />
+    </collection>
   </resultMap>
   <sql id="Base_Column_List">
-    comment_id, src_id, target_id, content, `type`, blog_id, is_valid, ctime, mtime
+    comment_id, src_id, content, blog_id, is_valid, ctime, mtime
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -21,19 +36,55 @@
     from b_comment
     where comment_id = #{commentId,jdbcType=INTEGER}
   </select>
+  <select id="selectBySelective" resultMap="BaseResultMap">
+    select
+      bcom.comment_id,
+      bcom.src_id,
+      (select bc.nickname from b_custom bc where bc.custom_id = bcom.src_id) as src_nickname,
+      (select bc.avatar_path from b_custom bc where bc.custom_id = bcom.src_id) as src_avatar_path,
+      bcom.content,
+      bcom.blog_id,
+      bcom.ctime,
+      bcom.mtime
+    from b_comment bcom
+    <where>
+      <if test="blogId != null">
+        and blog_id = #{blogId}
+      </if>
+    </where>
+    order by ctime desc
+  </select>
   <select id="getCount" resultType="java.lang.Integer">
     select count(1) from b_comment where is_valid = 1
+  </select>
+  <select id="findByCommentId" parameterType="int" resultType="cn.fan.breeze.entity.ReplyEntity">
+    select
+      reply_id,
+      src_id,
+      (select bc.nickname from b_custom bc where bc.custom_id = br.src_id) as src_nickname,
+      (select bc.avatar_path from b_custom bc where bc.custom_id = br.src_id) as src_avatar_path,
+      target_id,
+      (select bc.nickname from b_custom bc where bc.custom_id = br.target_id) as target_nickname,
+      (select bc.avatar_path from b_custom bc where bc.custom_id = br.target_id) as target_avatar_path,
+      content,
+      ctime,
+      mtime,
+      comment_id,
+      blog_id
+    from b_reply br
+    where comment_id = #{commentId}
+    order by ctime desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from b_comment
     where comment_id = #{commentId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="comment_id" keyProperty="commentId" parameterType="cn.fan.breeze.entity.CommentEntity" useGeneratedKeys="true">
-    insert into b_comment (src_id, target_id, content, 
-      `type`, blog_id, is_valid, 
+    insert into b_comment (src_id, content,
+      blog_id, is_valid,
       ctime, mtime)
-    values (#{srcId,jdbcType=INTEGER}, #{targetId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{type,jdbcType=INTEGER}, #{blogId,jdbcType=INTEGER}, #{isValid,jdbcType=INTEGER}, 
+    values (#{srcId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR},
+      #{blogId,jdbcType=INTEGER}, #{isValid,jdbcType=INTEGER},
       #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="comment_id" keyProperty="commentId" parameterType="cn.fan.breeze.entity.CommentEntity" useGeneratedKeys="true">
@@ -42,14 +93,8 @@
       <if test="srcId != null">
         src_id,
       </if>
-      <if test="targetId != null">
-        target_id,
-      </if>
       <if test="content != null">
         content,
-      </if>
-      <if test="type != null">
-        `type`,
       </if>
       <if test="blogId != null">
         blog_id,
@@ -68,14 +113,8 @@
       <if test="srcId != null">
         #{srcId,jdbcType=INTEGER},
       </if>
-      <if test="targetId != null">
-        #{targetId,jdbcType=INTEGER},
-      </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
       </if>
       <if test="blogId != null">
         #{blogId,jdbcType=INTEGER},
@@ -97,14 +136,8 @@
       <if test="srcId != null">
         src_id = #{srcId,jdbcType=INTEGER},
       </if>
-      <if test="targetId != null">
-        target_id = #{targetId,jdbcType=INTEGER},
-      </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
-      </if>
-      <if test="type != null">
-        `type` = #{type,jdbcType=INTEGER},
       </if>
       <if test="blogId != null">
         blog_id = #{blogId,jdbcType=INTEGER},
@@ -124,9 +157,7 @@
   <update id="updateByPrimaryKey" parameterType="cn.fan.breeze.entity.CommentEntity">
     update b_comment
     set src_id = #{srcId,jdbcType=INTEGER},
-      target_id = #{targetId,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
-      `type` = #{type,jdbcType=INTEGER},
       blog_id = #{blogId,jdbcType=INTEGER},
       is_valid = #{isValid,jdbcType=INTEGER},
       ctime = #{ctime,jdbcType=TIMESTAMP},

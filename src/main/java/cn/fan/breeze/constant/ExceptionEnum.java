@@ -14,6 +14,7 @@ public enum ExceptionEnum {
 
     NO_TOKEN_CODE(405, "请重新登录!"),
     DATA_REPEAT_CODE(407, "数据已存在!"),
+    ILLEGAL_PARAM_ERROR(408, "非法参数输入!"),
     INTERNAL_SERVER_ERROR(500, "服务器内部错误!"),
     SERVER_BUSY(503,"服务器正忙，请稍后再试!"),
     WEBMASTER_ERROR(504,"获取博主信息失败!"),

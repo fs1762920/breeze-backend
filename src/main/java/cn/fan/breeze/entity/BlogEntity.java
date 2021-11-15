@@ -56,7 +56,7 @@ public class BlogEntity implements Serializable {
     private Integer topped;
 
     /**
-     * 开启评论  0 开启  1 关闭
+     * 开启评论  0 关闭  1 开启
      */
     private Integer commented;
 

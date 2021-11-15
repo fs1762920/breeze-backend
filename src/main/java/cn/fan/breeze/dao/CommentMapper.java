@@ -3,6 +3,8 @@ package cn.fan.breeze.dao;
 import cn.fan.breeze.entity.CommentEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface CommentMapper {
     int deleteByPrimaryKey(Integer commentId);
@@ -18,4 +20,6 @@ public interface CommentMapper {
     int updateByPrimaryKey(CommentEntity record);
 
     Integer getCount();
+
+    List<CommentEntity> selectBySelective(CommentEntity commentEntity);
 }

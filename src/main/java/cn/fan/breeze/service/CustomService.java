@@ -9,4 +9,6 @@ public interface CustomService {
     CustomEntity findByIp(String customIpAddr);
 
     void save(CustomEntity customEntity);
+
+    void updateByIpAddr(CustomEntity customEntity);
 }

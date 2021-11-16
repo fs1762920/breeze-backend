@@ -61,4 +61,13 @@ public class CustomServiceImpl implements CustomService {
             customMapper.insert(customEntity);
         }
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateByIpAddr(CustomEntity customEntity) {
+        Date nowDate = new Date();
+        customEntity.setMtime(nowDate);
+        customEntity.setLastVisitTime(nowDate);
+        customMapper.updateByIpAddr(customEntity);
+    }
 }

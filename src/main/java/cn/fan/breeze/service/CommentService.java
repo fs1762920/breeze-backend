@@ -1,12 +1,13 @@
 package cn.fan.breeze.service;
 
 import cn.fan.breeze.entity.CommentEntity;
+import cn.fan.breeze.entity.vo.CommentInfo;
 import com.github.pagehelper.PageInfo;
 
 public interface CommentService {
-    boolean save(CommentEntity commentEntity);
+    boolean save(CommentInfo commentInfo);
 
-    PageInfo<CommentEntity> findByPage(Integer pageNum, Integer pageSize);
+    PageInfo<CommentEntity> findByPage(CommentEntity commentEntity, Integer pageNum, Integer pageSize);
 
     void delete(Integer commentId);
 }

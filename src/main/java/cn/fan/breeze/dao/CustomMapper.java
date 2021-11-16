@@ -22,4 +22,6 @@ public interface CustomMapper {
     void updateByCustomType(CustomEntity customEntity);
 
     List<CustomEntity> selectBySelective(CustomEntity param);
+
+    void updateByIpAddr(CustomEntity customEntity);
 }

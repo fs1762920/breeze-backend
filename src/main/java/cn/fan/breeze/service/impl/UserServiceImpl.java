@@ -36,11 +36,11 @@ public class UserServiceImpl implements UserService {
             userEntity.setMtime(nowDate);
             userMapper.insert(userEntity);
 
-            String masterIpAddr = HttpUtils.getIpAddr(request);
+//            String masterIpAddr = HttpUtils.getIpAddr(request);
             CustomEntity customEntity = new CustomEntity();
             customEntity.setMail(userEntity.getMail());
             customEntity.setNickname(userEntity.getNickname());
-            customEntity.setCustomIp(masterIpAddr);
+//            customEntity.setCustomIp(masterIpAddr);
             customEntity.setCustomType(1);
             customEntity.setCtime(nowDate);
             customEntity.setMtime(nowDate);

@@ -42,4 +42,12 @@ public class CustomController {
         }
         return BaseReturnDto.success(null);
     }
+
+    @PostMapping("/update")
+    public BaseReturnDto update(@RequestBody CustomEntity customEntity, HttpServletRequest request) {
+        String ipAddr = HttpUtils.getIpAddr(request);
+        customEntity.setCustomIp(ipAddr);
+        customService.updateByIpAddr(customEntity);
+        return BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "游客信息更新成功!");
+    }
 }

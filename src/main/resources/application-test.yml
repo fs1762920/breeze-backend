@@ -2,7 +2,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://123.60.7.55:3306/breeze?characterEncoding=utf-8&autoReconnect=true
+      url: jdbc:mysql://127.0.0.1:3306/breeze?characterEncoding=utf-8&autoReconnect=true
       password: 17629207915gcfs.
       username: root
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -20,7 +20,7 @@ spring:
       test-on-return: false
   redis:
     database: 0
-    host: 123.60.7.55
+    host: 127.0.0.1
     port: 6379
     lettuce:
       pool:

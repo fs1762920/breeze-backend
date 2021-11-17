@@ -41,7 +41,7 @@
           (select count(1) from b_comment where blog_id=bg.blog_id and is_valid=1) as comment_count,
           bg.cover,
           bg.summary,
-          bg.classify_id,
+#           bg.classify_id,
           bg.ctime,
           bg.mtime,
           bg.topped,
@@ -73,7 +73,7 @@
   </select>
   <select id="selectBySelective" resultMap="BaseResultMap">
     select
-          bg.blog_id,
+    distinct bg.blog_id,
           bg.title,
           bg.markdown_content,
           bg.html_content,
@@ -81,7 +81,7 @@
           (select count(1) from b_comment where blog_id=bg.blog_id and is_valid=1) as comment_count,
           bg.cover,
           bg.summary,
-          bg.classify_id,
+#           bg.classify_id,
           bg.ctime,
           bg.mtime,
           bg.topped,

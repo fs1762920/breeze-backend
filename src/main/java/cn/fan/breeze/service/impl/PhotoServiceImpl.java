@@ -65,7 +65,6 @@ public class PhotoServiceImpl implements PhotoService {
             photoEntity.setMtime(nowDate);
             photoEntityList.add(photoEntity);
         }
-        log.info("上传图片: {}", photoEntityList);
         photoMapper.insertBatch(photoEntityList);
     }
 

@@ -25,7 +25,7 @@
     <include refid="Base_Column_List" />
     from b_friend
     <where>
-      <if test="nickname != null || nickname != ''">
+      <if test="nickname != null and nickname != ''">
         and nickname like concat('%', #{nickname}, '%')
       </if>
       <if test="status != null">

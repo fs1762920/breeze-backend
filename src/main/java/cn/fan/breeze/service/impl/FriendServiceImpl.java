@@ -32,6 +32,7 @@ public class FriendServiceImpl implements FriendService {
     public PageInfo<FriendEntity> findByPage(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         List<FriendEntity> friendEntityList = friendMapper.selectBySelective(new FriendEntity());
+        log.info("friendEntityList: {}", friendEntityList);
         return new PageInfo<>(friendEntityList);
     }
 

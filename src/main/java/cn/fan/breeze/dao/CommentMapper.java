@@ -22,4 +22,8 @@ public interface CommentMapper {
     Integer getCount();
 
     List<CommentEntity> selectBySelective(CommentEntity commentEntity);
+
+    List<CommentEntity> selectByPage();
+
+    List<CommentEntity> selectByBlog();
 }

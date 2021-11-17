@@ -6,6 +6,8 @@
     <result column="src_id" jdbcType="INTEGER" property="srcId" />
     <result column="src_nickname" jdbcType="INTEGER" property="srcNickname" />
     <result column="src_avatar_path" jdbcType="INTEGER" property="srcAvatarPath" />
+    <result column="src_mail" jdbcType="INTEGER" property="srcMail" />
+    <result column="src_ip" jdbcType="INTEGER" property="srcIp" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="blog_id" jdbcType="INTEGER" property="blogId" />
     <result column="is_valid" jdbcType="INTEGER" property="isValid" />
@@ -16,9 +18,13 @@
       <result column="src_id" jdbcType="INTEGER" property="srcId" />
       <result column="src_nickname" jdbcType="INTEGER" property="srcNickname" />
       <result column="src_avatar_path" jdbcType="INTEGER" property="srcAvatarPath" />
+      <result column="src_mail" jdbcType="INTEGER" property="srcMail" />
+      <result column="src_ip" jdbcType="INTEGER" property="srcIp" />
       <result column="target_id" jdbcType="INTEGER" property="targetId" />
       <result column="target_nickname" jdbcType="INTEGER" property="targetNickname" />
       <result column="target_avatar_path" jdbcType="INTEGER" property="targetAvatarPath" />
+      <result column="target_mail" jdbcType="INTEGER" property="targetMail" />
+      <result column="target_ip" jdbcType="INTEGER" property="targetIp" />
       <result column="content" jdbcType="VARCHAR" property="content" />
       <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
       <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
@@ -42,6 +48,8 @@
       bcom.src_id,
       (select bc.nickname from b_custom bc where bc.custom_id = bcom.src_id) as src_nickname,
       (select bc.avatar_path from b_custom bc where bc.custom_id = bcom.src_id) as src_avatar_path,
+      (select bc.mail from b_custom bc where bc.custom_id = bcom.src_id) as src_mail,
+      (select bc.custom_ip from b_custom bc where bc.custom_id = bcom.src_id) as src_ip,
       bcom.content,
       bcom.blog_id,
       bcom.ctime,
@@ -54,6 +62,38 @@
     </where>
     order by ctime desc
   </select>
+  <select id="selectByPage" resultMap="BaseResultMap">
+    select
+    bcom.comment_id,
+    bcom.src_id,
+    (select bc.nickname from b_custom bc where bc.custom_id = bcom.src_id) as src_nickname,
+    (select bc.avatar_path from b_custom bc where bc.custom_id = bcom.src_id) as src_avatar_path,
+    (select bc.mail from b_custom bc where bc.custom_id = bcom.src_id) as src_mail,
+    (select bc.custom_ip from b_custom bc where bc.custom_id = bcom.src_id) as src_ip,
+    bcom.content,
+    bcom.blog_id,
+    bcom.ctime,
+    bcom.mtime
+    from b_comment bcom
+    where blog_id=-1
+    order by ctime desc
+  </select>
+  <select id="selectByBlog" resultMap="BaseResultMap">
+    select
+    bcom.comment_id,
+    bcom.src_id,
+    (select bc.nickname from b_custom bc where bc.custom_id = bcom.src_id) as src_nickname,
+    (select bc.avatar_path from b_custom bc where bc.custom_id = bcom.src_id) as src_avatar_path,
+    (select bc.mail from b_custom bc where bc.custom_id = bcom.src_id) as src_mail,
+    (select bc.custom_ip from b_custom bc where bc.custom_id = bcom.src_id) as src_ip,
+    bcom.content,
+    bcom.blog_id,
+    bcom.ctime,
+    bcom.mtime
+    from b_comment bcom
+    where blog_id!=-1
+    order by ctime desc
+  </select>
   <select id="getCount" resultType="java.lang.Integer">
     select count(1) from b_comment where is_valid = 1
   </select>
@@ -63,9 +103,13 @@
       src_id,
       (select bc.nickname from b_custom bc where bc.custom_id = br.src_id) as src_nickname,
       (select bc.avatar_path from b_custom bc where bc.custom_id = br.src_id) as src_avatar_path,
+      (select bc.mail from b_custom bc where bc.custom_id = br.src_id) as src_mail,
+      (select bc.custom_ip from b_custom bc where bc.custom_id = br.src_id) as src_ip,
       target_id,
       (select bc.nickname from b_custom bc where bc.custom_id = br.target_id) as target_nickname,
       (select bc.avatar_path from b_custom bc where bc.custom_id = br.target_id) as target_avatar_path,
+      (select bc.mail from b_custom bc where bc.custom_id = br.src_id) as target_mail,
+      (select bc.custom_ip from b_custom bc where bc.custom_id = br.src_id) as target_ip,
       content,
       ctime,
       mtime,

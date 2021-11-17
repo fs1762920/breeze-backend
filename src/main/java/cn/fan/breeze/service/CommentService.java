@@ -10,4 +10,6 @@ public interface CommentService {
     PageInfo<CommentEntity> findByPage(CommentEntity commentEntity, Integer pageNum, Integer pageSize);
 
     void delete(Integer commentId);
+
+    PageInfo<CommentEntity> findByPageBackend(Integer type, Integer pageNum, Integer pageSize);
 }

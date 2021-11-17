@@ -90,6 +90,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public PageInfo<CommentEntity> findByPageBackend(Integer type, Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<CommentEntity> commentEntityList;
+        if (type == 0) {
+            commentEntityList = commentMapper.selectByBlog();
+        } else {
+            commentEntityList = commentMapper.selectByPage();
+        }
+        return new PageInfo<>(commentEntityList);
+    }
+
+    @Override
     public void delete(Integer commentId) {
         commentMapper.deleteByPrimaryKey(commentId);
     }

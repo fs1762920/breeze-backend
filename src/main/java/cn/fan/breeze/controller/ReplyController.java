@@ -18,17 +18,18 @@ public class ReplyController {
     @Autowired
     private ReplyService replyService;
 
-//    @PostMapping("/save")
-//    public BaseReturnDto save(@RequestBody ReplyEntity replyEntity) {
-//        BaseReturnDto result;
-//        boolean success = replyService.save(replyEntity);
-//        if (success) {
-//            result = BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "回复成功!");
-//        } else {
-//            result = BaseReturnDto.error(ExceptionEnum.ILLEGAL_PARAM_ERROR);
-//        }
-//        return result;
-//    }
+    @SaCheckLogin
+    @PostMapping("/save")
+    public BaseReturnDto save(@RequestBody ReplyEntity replyEntity) {
+        BaseReturnDto result;
+        boolean success = replyService.save(replyEntity);
+        if (success) {
+            result = BaseReturnDto.success(BaseReturnDto.RESP_SUCCESS_CODE, "回复成功!");
+        } else {
+            result = BaseReturnDto.error(ExceptionEnum.ILLEGAL_PARAM_ERROR);
+        }
+        return result;
+    }
 
     @SaCheckLogin
     @GetMapping("/delete")

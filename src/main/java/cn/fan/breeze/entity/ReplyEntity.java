@@ -18,11 +18,19 @@ public class ReplyEntity implements Serializable {
 
     private String srcAvatarPath;
 
+    private String srcMail;
+
+    private String srcIp;
+
     private Integer targetId;
 
     private String targetNickname;
 
     private String targetAvatarPath;
+
+    private String targetMail;
+
+    private String targetIp;
 
     private String content;
 

@@ -24,6 +24,10 @@ public class CommentEntity implements Serializable {
 
     private String srcAvatarPath;
 
+    private String srcMail;
+
+    private String srcIp;
+
     /**
      * 评论内容
      */

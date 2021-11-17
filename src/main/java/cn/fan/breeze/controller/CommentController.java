@@ -37,6 +37,14 @@ public class CommentController {
         return result;
     }
 
+    @SaCheckLogin
+    @GetMapping("/findByPageBackend")
+    public BaseReturnDto findByPageBackend(Integer type, Integer pageNum, Integer pageSize) {
+        PageInfo<CommentEntity> pageInfo = commentService.findByPageBackend(type, pageNum, pageSize);
+        return BaseReturnDto.success(pageInfo);
+    }
+
+
     @GetMapping("/findByPage")
     public BaseReturnDto findByPage(CommentEntity commentEntity, Integer pageNum, Integer pageSize) {
         PageInfo<CommentEntity> pageInfo = commentService.findByPage(commentEntity, pageNum, pageSize);

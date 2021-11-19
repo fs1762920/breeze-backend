@@ -1,5 +1,9 @@
 server:
   port: 8081
 spring:
+  application:
+    name: breeze
   profiles:
-    active: test
+    active: dev
+logging:
+  config: classpath:logback-spring.xml

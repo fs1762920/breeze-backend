@@ -21,6 +21,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!-- redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!-- lettuce -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
@@ -56,6 +66,11 @@
         </dependency>
         <dependency>
             <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-dao-redis</artifactId>
+            <version>1.25.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-aop</artifactId>
             <version>1.25.0</version>
         </dependency>
@@ -63,6 +78,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.71</version>
+        </dependency>
+        <!--集成logstash-->
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>4.11</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>

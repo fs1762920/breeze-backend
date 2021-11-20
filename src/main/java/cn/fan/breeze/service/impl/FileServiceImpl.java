@@ -17,9 +17,6 @@ public class FileServiceImpl implements FileService {
     @Value("${upload.target-path}")
     private String targetPath;
 
-    @Value("${upload.path-prefix}")
-    private String pathPrefix;
-
     @Override
     public String upload(MultipartFile file) throws IOException {
         String originalFileName = file.getOriginalFilename();  // 文件名
@@ -30,6 +27,6 @@ public class FileServiceImpl implements FileService {
             dest.getParentFile().mkdirs();
         }
         file.transferTo(dest);
-        return pathPrefix + '/' + dealedFileName;
+        return dealedFileName;
     }
 }

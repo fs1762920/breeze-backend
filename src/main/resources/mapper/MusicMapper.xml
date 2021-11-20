@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.fan.breeze.dao.MusicMapper">
+  <resultMap id="BaseResultMap" type="cn.fan.breeze.entity.MusicEntity">
+    <id column="music_id" jdbcType="INTEGER" property="musicId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="album" jdbcType="VARCHAR" property="album" />
+    <result column="artist" jdbcType="VARCHAR" property="artist" />
+    <result column="lyric" jdbcType="VARCHAR" property="lyric" />
+    <result column="src" jdbcType="VARCHAR" property="src" />
+    <result column="duration" jdbcType="BIGINT" property="duration" />
+    <result column="ctime" jdbcType="TIMESTAMP" property="ctime" />
+    <result column="mtime" jdbcType="TIMESTAMP" property="mtime" />
+    <result column="size" jdbcType="BIGINT" property="size" />
+    <result column="album_picture" jdbcType="VARCHAR" property="albumPicture" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    music_id, title, album, artist, lyric, src, duration, ctime, mtime, `size`, album_picture
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from b_music
+    where music_id = #{musicId,jdbcType=INTEGER}
+  </select>
+  <select id="selectBySelective" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from b_music
+    <where>
+      <if test="title != null">
+        and title like concat('%', #{title}, '%')
+      </if>
+      <if test="album != null">
+        and album like concat('%', #{album}, '%')
+      </if>
+      <if test="artist != null">
+        and artist like concat('%', #{artist}, '%')
+      </if>
+    </where>
+    order by mtime desc
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from b_music
+    where music_id = #{musicId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="music_id" keyProperty="musicId" parameterType="cn.fan.breeze.entity.MusicEntity" useGeneratedKeys="true">
+    insert into b_music (title, album, artist, 
+      lyric, src, duration, 
+      ctime, mtime, `size`, 
+      album_picture)
+    values (#{title,jdbcType=VARCHAR}, #{album,jdbcType=VARCHAR}, #{artist,jdbcType=VARCHAR}, 
+      #{lyric,jdbcType=VARCHAR}, #{src,jdbcType=VARCHAR}, #{duration,jdbcType=BIGINT}, 
+      #{ctime,jdbcType=TIMESTAMP}, #{mtime,jdbcType=TIMESTAMP}, #{size,jdbcType=BIGINT}, 
+      #{albumPicture,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="music_id" keyProperty="musicId" parameterType="cn.fan.breeze.entity.MusicEntity" useGeneratedKeys="true">
+    insert into b_music
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        title,
+      </if>
+      <if test="album != null">
+        album,
+      </if>
+      <if test="artist != null">
+        artist,
+      </if>
+      <if test="lyric != null">
+        lyric,
+      </if>
+      <if test="src != null">
+        src,
+      </if>
+      <if test="duration != null">
+        duration,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="mtime != null">
+        mtime,
+      </if>
+      <if test="size != null">
+        `size`,
+      </if>
+      <if test="albumPicture != null">
+        album_picture,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="album != null">
+        #{album,jdbcType=VARCHAR},
+      </if>
+      <if test="artist != null">
+        #{artist,jdbcType=VARCHAR},
+      </if>
+      <if test="lyric != null">
+        #{lyric,jdbcType=VARCHAR},
+      </if>
+      <if test="src != null">
+        #{src,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="size != null">
+        #{size,jdbcType=BIGINT},
+      </if>
+      <if test="albumPicture != null">
+        #{albumPicture,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.fan.breeze.entity.MusicEntity">
+    update b_music
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="album != null">
+        album = #{album,jdbcType=VARCHAR},
+      </if>
+      <if test="artist != null">
+        artist = #{artist,jdbcType=VARCHAR},
+      </if>
+      <if test="lyric != null">
+        lyric = #{lyric,jdbcType=VARCHAR},
+      </if>
+      <if test="src != null">
+        src = #{src,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=BIGINT},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="mtime != null">
+        mtime = #{mtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="size != null">
+        `size` = #{size,jdbcType=BIGINT},
+      </if>
+      <if test="albumPicture != null">
+        album_picture = #{albumPicture,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where music_id = #{musicId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.fan.breeze.entity.MusicEntity">
+    update b_music
+    set title = #{title,jdbcType=VARCHAR},
+      album = #{album,jdbcType=VARCHAR},
+      artist = #{artist,jdbcType=VARCHAR},
+      lyric = #{lyric,jdbcType=VARCHAR},
+      src = #{src,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=BIGINT},
+      ctime = #{ctime,jdbcType=TIMESTAMP},
+      mtime = #{mtime,jdbcType=TIMESTAMP},
+      `size` = #{size,jdbcType=BIGINT},
+      album_picture = #{albumPicture,jdbcType=VARCHAR}
+    where music_id = #{musicId,jdbcType=INTEGER}
+  </update>
+</mapper>

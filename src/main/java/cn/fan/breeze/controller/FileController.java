@@ -5,6 +5,7 @@ import cn.fan.breeze.common.BaseReturnDto;
 import cn.fan.breeze.service.FileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,9 +20,12 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
+    @Value("${upload.path-prefix}")
+    private String pathPrefix;
+
     @SaCheckLogin
     @PostMapping("/upload")
     public BaseReturnDto upload(@RequestParam("file") MultipartFile file) throws IOException {
-        return BaseReturnDto.success(fileService.upload(file));
+        return BaseReturnDto.success(pathPrefix + '/' + fileService.upload(file));
     }
 }

@@ -26,7 +26,7 @@
         and label_name like concat('%', #{labelName}, '%')
       </if>
     </where>
-    order by mtime
+    order by mtime desc
   </select>
   <select id="getCount" resultType="java.lang.Integer">
     select count(1) from b_label

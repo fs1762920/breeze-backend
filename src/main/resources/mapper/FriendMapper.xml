@@ -32,6 +32,7 @@
         and status = #{status}
       </if>
     </where>
+    order by ctime desc
   </select>
   <select id="getCount" resultType="java.lang.Integer">
     select count(1) from b_friend where status = 1

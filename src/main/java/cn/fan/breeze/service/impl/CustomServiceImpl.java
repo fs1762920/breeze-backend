@@ -47,18 +47,25 @@ public class CustomServiceImpl implements CustomService {
     @Transactional(rollbackFor = Exception.class)
     public void save(CustomEntity customEntity) {
         List<CustomEntity> customEntityList = customMapper.selectBySelective(customEntity);
+        Date nowDate = new Date();
         if (customEntityList.isEmpty()) {
-            JSONObject avatarJson = restTemplate.getForObject("https://api.muxiaoguo.cn/api/sjtx?method=pc", JSONObject.class);
-            if (avatarJson != null && avatarJson.getInteger("code") == 200) {
-                String avatarPath = avatarJson.getJSONObject("data").getString("imgurl");
-                customEntity.setAvatarPath(avatarPath);
+            try {
+                JSONObject avatarJson = restTemplate.getForObject("https://api.muxiaoguo.cn/api/sjtx?method=pc", JSONObject.class);
+                if (avatarJson != null && avatarJson.getInteger("code") == 200) {
+                    String avatarPath = avatarJson.getJSONObject("data").getString("imgurl");
+                    customEntity.setAvatarPath(avatarPath);
+                }
+            } catch (Exception e) {
+                log.error("随机头像接口报错: ", e);
             }
-            Date nowDate = new Date();
             customEntity.setCustomType(0);
             customEntity.setCtime(nowDate);
             customEntity.setMtime(nowDate);
             customEntity.setLastVisitTime(nowDate);
             customMapper.insert(customEntity);
+        } else {
+            customEntity.setLastVisitTime(nowDate);
+            customMapper.updateByIpAddr(customEntity);
         }
     }
 

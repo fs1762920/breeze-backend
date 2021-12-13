@@ -195,6 +195,9 @@
       <if test="mtime != null">
         mtime = #{mtime,jdbcType=TIMESTAMP},
       </if>
+      <if test="lastVisitTime != null">
+        last_visit_time = #{lastVisitTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where custom_ip = #{customIp,jdbcType=VARCHAR}
   </update>

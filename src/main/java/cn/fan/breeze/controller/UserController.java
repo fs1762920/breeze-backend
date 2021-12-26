@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -43,9 +44,8 @@ public class UserController {
         queryParam.setUsername(userEntity.getUsername());
         List<UserEntity> queryResult = userService.find(queryParam);
         if (!queryResult.isEmpty()) {
-            String encodePassword = queryResult.get(0).getPassword();
-            String decodePassword = SaSecureUtil.rsaDecryptByPrivate(privateKey, encodePassword);
-            if (decodePassword.equals(userEntity.getPassword())) {
+            String libDecodePassword = SaSecureUtil.rsaDecryptByPrivate(privateKey, queryResult.get(0).getPassword());
+            if (libDecodePassword.equals(userEntity.getPassword())) {
                 StpUtil.login(queryResult.get(0).getUserId());
                 queryResult.get(0).setToken(StpUtil.getTokenInfo().getTokenValue());
                 UserEntity loginUpdate = new UserEntity();
@@ -60,6 +60,11 @@ public class UserController {
             result = BaseReturnDto.error(ExceptionEnum.USER_NOT_FOUND);
         }
         return result;
+    }
+
+    @GetMapping("/getPublicKey")
+    public BaseReturnDto getPublicKey() {
+        return BaseReturnDto.success(publicKey);
     }
 
     @SaCheckLogin

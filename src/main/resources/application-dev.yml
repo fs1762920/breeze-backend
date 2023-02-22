@@ -2,9 +2,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://123.60.7.55:3306/breeze?characterEncoding=utf-8&autoReconnect=true
-      password: 17629207915gcfs.
-      username: root
+      url: jdbc:mysql://ip:3306/breeze?characterEncoding=utf-8&autoReconnect=true
+      password: passwd
+      username: user
       driver-class-name: com.mysql.cj.jdbc.Driver
       query-timeout: 30000
       initial-size: 5
@@ -20,7 +20,7 @@ spring:
       test-on-return: false
   redis:
     database: 0
-    host: 123.60.7.55
+    host: ip
     port: 6379
     lettuce:
       pool:
@@ -60,5 +60,5 @@ sa-token:
   # token风格
   token-style: random-128
   tokenPrefix: Bearer
-  private-key: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKbft2P4DTh3t2oW5TXDyIl2/p2SQxxW0J9ekyxRzMcGXFA1nzh0AZfH4SEEVhrBJyMtfnNjZGIqEeBUN5AEVX8civLO412JJ0J5Xx5Qmaq0Wf8zMJ/m5+8mLUltDZYW86h/DnpR4k0VbiAHReQZTkTUPhxa9Guaa2URcnNj/zhlAgMBAAECgYBDyKoYzICqSE7TpDs07LM/y3s/jFMAZu9VXThRD2UsDxRebHmhl9WxzrpPDBDhy0XXjzpHKr9y9H3QbsUnFeuYDBbyc6WYmutKu88fgw7Bphl6FulWjufduMhM+8tpyo65hYKnOgnwseH9SUDojqlpncUkDG1h1b/A+HV3ve/jAQJBAP142ois0WPLpZHuDFEIOxbFa1ykafjA/OEEbsaGraIsIJqrlma9iMhcD1Oz+/Z0OCIqb/fUU4A6VlYxNErAl6UCQQCoicQ9Z2gDDBt3JsyaqPEEIRKAoUuJQIeeBnBjOiTMvvPB/wGvOMf+1/h0u+xGfZ0Je7c4MXzhsubcCvWnXEHBAkEA5+YE0dyCqbHsZgmLXSuRm/C8nAKULZCrC1dZ3enju6ZxofBwZsjq9pw7LZJSaBXGMYPv8qZgSsWUrcDQnb98PQJAS8LCKCgXpWcH4aPbTZqr3QNQ4emfnu8XB341fyVf7XnY8VfEVhPcMz66PR9MstM8iErIrcXxMTPOexOiIb1jAQJAX3Ke1L/VzF75cJUoCw5z9KI+HItku6NC/vj8Paa7VUvvJdKiAf49ACzK21ZWSOCHuwCYdA+xP9FZyod8iKebyA==
+  private-key: key
   public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCm37dj+A04d7dqFuU1w8iJdv6dkkMcVtCfXpMsUczHBlxQNZ84dAGXx+EhBFYawScjLX5zY2RiKhHgVDeQBFV/HIryzuNdiSdCeV8eUJmqtFn/MzCf5ufvJi1JbQ2WFvOofw56UeJNFW4gB0XkGU5E1D4cWvRrmmtlEXJzY/84ZQIDAQAB
